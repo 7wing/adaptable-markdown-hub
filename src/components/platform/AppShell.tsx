@@ -89,7 +89,7 @@ export function AppShell({
               {navByRole[role].map((item) => (
                 <li key={item.to}>
                   <Link
-                    to={item.to}
+                    to={item.to as never}
                     activeOptions={{ exact: item.to.split("/").length === 2 }}
                     activeProps={{ className: "bg-primary text-primary-foreground" }}
                     className="block px-3 py-2 transition-colors hover:bg-background/5"
