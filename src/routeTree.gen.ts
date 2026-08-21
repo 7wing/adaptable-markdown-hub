@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CollaborationsRouteImport } from './routes/collaborations'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as SectorsRouteImport } from './routes/sectors'
 import { Route as TeamRouteImport } from './routes/team'
 
@@ -36,6 +37,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SectorsRoute = SectorsRouteImport.update({
   id: '/sectors',
   path: '/sectors',
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/collaborations'
     | '/contact'
     | '/how-it-works'
+    | '/login'
     | '/sectors'
     | '/team'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/collaborations'
     | '/contact'
     | '/how-it-works'
+    | '/login'
     | '/sectors'
     | '/team'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/collaborations'
     | '/contact'
     | '/how-it-works'
+    | '/login'
     | '/sectors'
     | '/team'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   CollaborationsRoute: typeof CollaborationsRoute
   ContactRoute: typeof ContactRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  LoginRoute: typeof LoginRoute
   SectorsRoute: typeof SectorsRoute
   TeamRoute: typeof TeamRoute
 }
@@ -138,6 +151,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sectors': {
       id: '/sectors'
       path: '/sectors'
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   CollaborationsRoute: CollaborationsRoute,
   ContactRoute: ContactRoute,
   HowItWorksRoute: HowItWorksRoute,
+  LoginRoute: LoginRoute,
   SectorsRoute: SectorsRoute,
   TeamRoute: TeamRoute,
 }
