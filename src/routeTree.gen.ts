@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CollaborationsRouteImport } from './routes/collaborations'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as SectorsRouteImport } from './routes/sectors'
 import { Route as TeamRouteImport } from './routes/team'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const CollaborationsRoute = CollaborationsRouteImport.update({
   id: '/collaborations',
   path: '/collaborations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
@@ -44,6 +50,7 @@ const TeamRoute = TeamRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/collaborations': typeof CollaborationsRoute
+  '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/collaborations': typeof CollaborationsRoute
+  '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/collaborations': typeof CollaborationsRoute
+  '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/collaborations' | '/how-it-works' | '/sectors' | '/team'
+  fullPaths:
+    | '/'
+    | '/collaborations'
+    | '/contact'
+    | '/how-it-works'
+    | '/sectors'
+    | '/team'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/collaborations' | '/how-it-works' | '/sectors' | '/team'
+  to:
+    | '/'
+    | '/collaborations'
+    | '/contact'
+    | '/how-it-works'
+    | '/sectors'
+    | '/team'
   id:
     | '__root__'
     | '/'
     | '/collaborations'
+    | '/contact'
     | '/how-it-works'
     | '/sectors'
     | '/team'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CollaborationsRoute: typeof CollaborationsRoute
+  ContactRoute: typeof ContactRoute
   HowItWorksRoute: typeof HowItWorksRoute
   SectorsRoute: typeof SectorsRoute
   TeamRoute: typeof TeamRoute
@@ -99,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/collaborations'
       fullPath: '/collaborations'
       preLoaderRoute: typeof CollaborationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/how-it-works': {
@@ -128,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CollaborationsRoute: CollaborationsRoute,
+  ContactRoute: ContactRoute,
   HowItWorksRoute: HowItWorksRoute,
   SectorsRoute: SectorsRoute,
   TeamRoute: TeamRoute,

@@ -46,7 +46,7 @@ const inputClass =
 
 export default function Contact() {
   const { addLead } = useAfadhali();
-  const [form, setForm] = useState({ name: "", company: "", sector: sectors[0], message: "" });
+  const [form, setForm] = useState({ name: "", company: "", sector: "Coffee and tea", message: "" });
   const [sent, setSent] = useState(false);
 
   return (
