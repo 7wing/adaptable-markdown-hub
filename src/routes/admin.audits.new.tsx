@@ -7,7 +7,7 @@ import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/audits/new")({
   validateSearch: (search: Record<string, unknown>) => ({
-    clientId: typeof search.clientId === "string" ? search.clientId : undefined,
+    clientId: typeof search["clientId"] === "string" ? (search["clientId"] as string) : undefined,
   }),
   component: NewAudit,
 });
