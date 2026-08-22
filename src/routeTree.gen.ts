@@ -25,6 +25,7 @@ import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminWasteRouteImport } from './routes/admin.waste'
 import { Route as ClientIndexRouteImport } from './routes/client.index'
+import { Route as ClientAccountRouteImport } from './routes/client.account'
 import { Route as ClientMatchesRouteImport } from './routes/client.matches'
 import { Route as ClientRecommendationsRouteImport } from './routes/client.recommendations'
 import { Route as ClientScorecardRouteImport } from './routes/client.scorecard'
@@ -113,6 +114,11 @@ const ClientIndexRoute = ClientIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ClientRoute,
 } as any)
+const ClientAccountRoute = ClientAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => ClientRoute,
+} as any)
 const ClientMatchesRoute = ClientMatchesRouteImport.update({
   id: '/matches',
   path: '/matches',
@@ -164,6 +170,7 @@ export interface FileRoutesByFullPath {
   '/admin/reports': typeof AdminReportsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
+  '/client/account': typeof ClientAccountRoute
   '/client/matches': typeof ClientMatchesRoute
   '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/admin/reports': typeof AdminReportsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
+  '/client/account': typeof ClientAccountRoute
   '/client/matches': typeof ClientMatchesRoute
   '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/admin/reports': typeof AdminReportsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
+  '/client/account': typeof ClientAccountRoute
   '/client/matches': typeof ClientMatchesRoute
   '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/users'
     | '/admin/waste'
+    | '/client/account'
     | '/client/matches'
     | '/client/recommendations'
     | '/client/scorecard'
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/users'
     | '/admin/waste'
+    | '/client/account'
     | '/client/matches'
     | '/client/recommendations'
     | '/client/scorecard'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/users'
     | '/admin/waste'
+    | '/client/account'
     | '/client/matches'
     | '/client/recommendations'
     | '/client/scorecard'
@@ -425,6 +437,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientIndexRouteImport
       parentRoute: typeof ClientRoute
     }
+    '/client/account': {
+      id: '/client/account'
+      path: '/account'
+      fullPath: '/client/account'
+      preLoaderRoute: typeof ClientAccountRouteImport
+      parentRoute: typeof ClientRoute
+    }
     '/client/matches': {
       id: '/client/matches'
       path: '/matches'
@@ -504,6 +523,7 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ClientRouteChildren {
+  ClientAccountRoute: typeof ClientAccountRoute
   ClientMatchesRoute: typeof ClientMatchesRoute
   ClientRecommendationsRoute: typeof ClientRecommendationsRoute
   ClientScorecardRoute: typeof ClientScorecardRoute
@@ -512,6 +532,7 @@ interface ClientRouteChildren {
 }
 
 const ClientRouteChildren: ClientRouteChildren = {
+  ClientAccountRoute: ClientAccountRoute,
   ClientMatchesRoute: ClientMatchesRoute,
   ClientRecommendationsRoute: ClientRecommendationsRoute,
   ClientScorecardRoute: ClientScorecardRoute,
