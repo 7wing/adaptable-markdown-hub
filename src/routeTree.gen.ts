@@ -26,6 +26,7 @@ import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminWasteRouteImport } from './routes/admin.waste'
 import { Route as ClientIndexRouteImport } from './routes/client.index'
 import { Route as ClientMatchesRouteImport } from './routes/client.matches'
+import { Route as ClientRecommendationsRouteImport } from './routes/client.recommendations'
 import { Route as ClientScorecardRouteImport } from './routes/client.scorecard'
 import { Route as ClientWasteRouteImport } from './routes/client.waste'
 import { Route as AdminAuditsNewRouteImport } from './routes/admin.audits.new'
@@ -117,6 +118,11 @@ const ClientMatchesRoute = ClientMatchesRouteImport.update({
   path: '/matches',
   getParentRoute: () => ClientRoute,
 } as any)
+const ClientRecommendationsRoute = ClientRecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => ClientRoute,
+} as any)
 const ClientScorecardRoute = ClientScorecardRouteImport.update({
   id: '/scorecard',
   path: '/scorecard',
@@ -159,6 +165,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/client/matches': typeof ClientMatchesRoute
+  '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
   '/admin/': typeof AdminIndexRoute
@@ -181,6 +188,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/client/matches': typeof ClientMatchesRoute
+  '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
   '/admin': typeof AdminIndexRoute
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/client/matches': typeof ClientMatchesRoute
+  '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
   '/admin/': typeof AdminIndexRoute
@@ -232,6 +241,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/waste'
     | '/client/matches'
+    | '/client/recommendations'
     | '/client/scorecard'
     | '/client/waste'
     | '/admin/'
@@ -254,6 +264,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/waste'
     | '/client/matches'
+    | '/client/recommendations'
     | '/client/scorecard'
     | '/client/waste'
     | '/admin'
@@ -278,6 +289,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/waste'
     | '/client/matches'
+    | '/client/recommendations'
     | '/client/scorecard'
     | '/client/waste'
     | '/admin/'
@@ -420,6 +432,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientMatchesRouteImport
       parentRoute: typeof ClientRoute
     }
+    '/client/recommendations': {
+      id: '/client/recommendations'
+      path: '/recommendations'
+      fullPath: '/client/recommendations'
+      preLoaderRoute: typeof ClientRecommendationsRouteImport
+      parentRoute: typeof ClientRoute
+    }
     '/client/scorecard': {
       id: '/client/scorecard'
       path: '/scorecard'
@@ -486,6 +505,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ClientRouteChildren {
   ClientMatchesRoute: typeof ClientMatchesRoute
+  ClientRecommendationsRoute: typeof ClientRecommendationsRoute
   ClientScorecardRoute: typeof ClientScorecardRoute
   ClientWasteRoute: typeof ClientWasteRoute
   ClientIndexRoute: typeof ClientIndexRoute
@@ -493,6 +513,7 @@ interface ClientRouteChildren {
 
 const ClientRouteChildren: ClientRouteChildren = {
   ClientMatchesRoute: ClientMatchesRoute,
+  ClientRecommendationsRoute: ClientRecommendationsRoute,
   ClientScorecardRoute: ClientScorecardRoute,
   ClientWasteRoute: ClientWasteRoute,
   ClientIndexRoute: ClientIndexRoute,
