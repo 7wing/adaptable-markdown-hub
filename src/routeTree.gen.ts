@@ -25,6 +25,7 @@ import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminWasteRouteImport } from './routes/admin.waste'
 import { Route as ClientIndexRouteImport } from './routes/client.index'
+import { Route as ClientMatchesRouteImport } from './routes/client.matches'
 import { Route as ClientScorecardRouteImport } from './routes/client.scorecard'
 import { Route as ClientWasteRouteImport } from './routes/client.waste'
 import { Route as AdminAuditsNewRouteImport } from './routes/admin.audits.new'
@@ -111,6 +112,11 @@ const ClientIndexRoute = ClientIndexRouteImport.update({
   path: '/',
   getParentRoute: () => ClientRoute,
 } as any)
+const ClientMatchesRoute = ClientMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
+  getParentRoute: () => ClientRoute,
+} as any)
 const ClientScorecardRoute = ClientScorecardRouteImport.update({
   id: '/scorecard',
   path: '/scorecard',
@@ -152,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/admin/reports': typeof AdminReportsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
+  '/client/matches': typeof ClientMatchesRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
   '/admin/': typeof AdminIndexRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/admin/reports': typeof AdminReportsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
+  '/client/matches': typeof ClientMatchesRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
   '/admin': typeof AdminIndexRoute
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/admin/reports': typeof AdminReportsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
+  '/client/matches': typeof ClientMatchesRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
   '/admin/': typeof AdminIndexRoute
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/users'
     | '/admin/waste'
+    | '/client/matches'
     | '/client/scorecard'
     | '/client/waste'
     | '/admin/'
@@ -243,6 +253,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/users'
     | '/admin/waste'
+    | '/client/matches'
     | '/client/scorecard'
     | '/client/waste'
     | '/admin'
@@ -266,6 +277,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/users'
     | '/admin/waste'
+    | '/client/matches'
     | '/client/scorecard'
     | '/client/waste'
     | '/admin/'
@@ -401,6 +413,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientIndexRouteImport
       parentRoute: typeof ClientRoute
     }
+    '/client/matches': {
+      id: '/client/matches'
+      path: '/matches'
+      fullPath: '/client/matches'
+      preLoaderRoute: typeof ClientMatchesRouteImport
+      parentRoute: typeof ClientRoute
+    }
     '/client/scorecard': {
       id: '/client/scorecard'
       path: '/scorecard'
@@ -466,12 +485,14 @@ const AdminRouteChildren: AdminRouteChildren = {
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface ClientRouteChildren {
+  ClientMatchesRoute: typeof ClientMatchesRoute
   ClientScorecardRoute: typeof ClientScorecardRoute
   ClientWasteRoute: typeof ClientWasteRoute
   ClientIndexRoute: typeof ClientIndexRoute
 }
 
 const ClientRouteChildren: ClientRouteChildren = {
+  ClientMatchesRoute: ClientMatchesRoute,
   ClientScorecardRoute: ClientScorecardRoute,
   ClientWasteRoute: ClientWasteRoute,
   ClientIndexRoute: ClientIndexRoute,
