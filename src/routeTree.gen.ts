@@ -19,6 +19,7 @@ import { Route as SectorsRouteImport } from './routes/sectors'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminMatchesRouteImport } from './routes/admin.matches'
+import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as AdminWasteRouteImport } from './routes/admin.waste'
 import { Route as AdminAuditsNewRouteImport } from './routes/admin.audits.new'
 import { Route as AdminClientsIndexRouteImport } from './routes/admin.clients.index'
@@ -74,6 +75,11 @@ const AdminMatchesRoute = AdminMatchesRouteImport.update({
   path: '/matches',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminPartnersRoute = AdminPartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminWasteRoute = AdminWasteRouteImport.update({
   id: '/waste',
   path: '/waste',
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
   '/admin/matches': typeof AdminMatchesRoute
+  '/admin/partners': typeof AdminPartnersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/audits/new': typeof AdminAuditsNewRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
   '/admin/matches': typeof AdminMatchesRoute
+  '/admin/partners': typeof AdminPartnersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/admin': typeof AdminIndexRoute
   '/admin/audits/new': typeof AdminAuditsNewRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
   '/admin/matches': typeof AdminMatchesRoute
+  '/admin/partners': typeof AdminPartnersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/audits/new': typeof AdminAuditsNewRoute
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/sectors'
     | '/team'
     | '/admin/matches'
+    | '/admin/partners'
     | '/admin/waste'
     | '/admin/'
     | '/admin/audits/new'
@@ -170,6 +180,7 @@ export interface FileRouteTypes {
     | '/sectors'
     | '/team'
     | '/admin/matches'
+    | '/admin/partners'
     | '/admin/waste'
     | '/admin'
     | '/admin/audits/new'
@@ -186,6 +197,7 @@ export interface FileRouteTypes {
     | '/sectors'
     | '/team'
     | '/admin/matches'
+    | '/admin/partners'
     | '/admin/waste'
     | '/admin/'
     | '/admin/audits/new'
@@ -276,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminMatchesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/partners': {
+      id: '/admin/partners'
+      path: '/partners'
+      fullPath: '/admin/partners'
+      preLoaderRoute: typeof AdminPartnersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/waste': {
       id: '/admin/waste'
       path: '/waste'
@@ -309,6 +328,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminMatchesRoute: typeof AdminMatchesRoute
+  AdminPartnersRoute: typeof AdminPartnersRoute
   AdminWasteRoute: typeof AdminWasteRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminAuditsNewRoute: typeof AdminAuditsNewRoute
@@ -318,6 +338,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminMatchesRoute: AdminMatchesRoute,
+  AdminPartnersRoute: AdminPartnersRoute,
   AdminWasteRoute: AdminWasteRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminAuditsNewRoute: AdminAuditsNewRoute,
