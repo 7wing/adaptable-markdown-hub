@@ -9,7 +9,7 @@ export const Route = createFileRoute("/admin/audits/new")({
   validateSearch: (search: Record<string, unknown>) => ({
     clientId: typeof search.clientId === "string" ? search.clientId : undefined,
   }),
-  component: NewAudit;
+  component: NewAudit,
 });
 
 type Entry = {
