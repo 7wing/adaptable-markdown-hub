@@ -16,6 +16,7 @@ import { Route as CollaborationsRouteImport } from './routes/collaborations'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as SectorsRouteImport } from './routes/sectors'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
@@ -67,6 +68,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerRoute = PartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SectorsRoute = SectorsRouteImport.update({
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
+  '/partner': typeof PartnerRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
   '/admin/matches': typeof AdminMatchesRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
+  '/partner': typeof PartnerRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
   '/admin/matches': typeof AdminMatchesRoute
@@ -214,6 +222,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
+  '/partner': typeof PartnerRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
   '/admin/matches': typeof AdminMatchesRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/how-it-works'
     | '/login'
+    | '/partner'
     | '/sectors'
     | '/team'
     | '/admin/matches'
@@ -266,6 +276,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/how-it-works'
     | '/login'
+    | '/partner'
     | '/sectors'
     | '/team'
     | '/admin/matches'
@@ -292,6 +303,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/how-it-works'
     | '/login'
+    | '/partner'
     | '/sectors'
     | '/team'
     | '/admin/matches'
@@ -319,6 +331,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LoginRoute: typeof LoginRoute
+  PartnerRoute: typeof PartnerRoute
   SectorsRoute: typeof SectorsRoute
   TeamRoute: typeof TeamRoute
 }
@@ -372,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner': {
+      id: '/partner'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof PartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sectors': {
@@ -551,6 +571,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   HowItWorksRoute: HowItWorksRoute,
   LoginRoute: LoginRoute,
+  PartnerRoute: PartnerRoute,
   SectorsRoute: SectorsRoute,
   TeamRoute: TeamRoute,
 }
