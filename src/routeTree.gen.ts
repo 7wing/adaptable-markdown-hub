@@ -24,6 +24,7 @@ import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminWasteRouteImport } from './routes/admin.waste'
+import { Route as ClientIndexRouteImport } from './routes/client.index'
 import { Route as AdminAuditsNewRouteImport } from './routes/admin.audits.new'
 import { Route as AdminClientsIndexRouteImport } from './routes/admin.clients.index'
 import { Route as AdminClientsClientIdRouteImport } from './routes/admin.clients.$clientId'
@@ -103,6 +104,11 @@ const AdminWasteRoute = AdminWasteRouteImport.update({
   path: '/waste',
   getParentRoute: () => AdminRoute,
 } as any)
+const ClientIndexRoute = ClientIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ClientRoute,
+} as any)
 const AdminAuditsNewRoute = AdminAuditsNewRouteImport.update({
   id: '/audits/new',
   path: '/audits/new',
@@ -122,7 +128,7 @@ const AdminClientsClientIdRoute = AdminClientsClientIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/client': typeof ClientRoute
+  '/client': typeof ClientRouteWithChildren
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -135,13 +141,13 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/admin/': typeof AdminIndexRoute
+  '/client/': typeof ClientIndexRoute
   '/admin/audits/new': typeof AdminAuditsNewRoute
   '/admin/clients/$clientId': typeof AdminClientsClientIdRoute
   '/admin/clients/': typeof AdminClientsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/client': typeof ClientRoute
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -154,6 +160,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/admin': typeof AdminIndexRoute
+  '/client': typeof ClientIndexRoute
   '/admin/audits/new': typeof AdminAuditsNewRoute
   '/admin/clients/$clientId': typeof AdminClientsClientIdRoute
   '/admin/clients': typeof AdminClientsIndexRoute
@@ -162,7 +169,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
-  '/client': typeof ClientRoute
+  '/client': typeof ClientRouteWithChildren
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
@@ -175,6 +182,7 @@ export interface FileRoutesById {
   '/admin/users': typeof AdminUsersRoute
   '/admin/waste': typeof AdminWasteRoute
   '/admin/': typeof AdminIndexRoute
+  '/client/': typeof ClientIndexRoute
   '/admin/audits/new': typeof AdminAuditsNewRoute
   '/admin/clients/$clientId': typeof AdminClientsClientIdRoute
   '/admin/clients/': typeof AdminClientsIndexRoute
@@ -197,13 +205,13 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/waste'
     | '/admin/'
+    | '/client/'
     | '/admin/audits/new'
     | '/admin/clients/$clientId'
     | '/admin/clients/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/client'
     | '/collaborations'
     | '/contact'
     | '/how-it-works'
@@ -216,6 +224,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/waste'
     | '/admin'
+    | '/client'
     | '/admin/audits/new'
     | '/admin/clients/$clientId'
     | '/admin/clients'
@@ -236,6 +245,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/waste'
     | '/admin/'
+    | '/client/'
     | '/admin/audits/new'
     | '/admin/clients/$clientId'
     | '/admin/clients/'
@@ -244,7 +254,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  ClientRoute: typeof ClientRoute
+  ClientRoute: typeof ClientRouteWithChildren
   CollaborationsRoute: typeof CollaborationsRoute
   ContactRoute: typeof ContactRoute
   HowItWorksRoute: typeof HowItWorksRoute
@@ -360,6 +370,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminWasteRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/client/': {
+      id: '/client/'
+      path: '/'
+      fullPath: '/client/'
+      preLoaderRoute: typeof ClientIndexRouteImport
+      parentRoute: typeof ClientRoute
+    }
     '/admin/audits/new': {
       id: '/admin/audits/new'
       path: '/audits/new'
@@ -410,10 +427,21 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface ClientRouteChildren {
+  ClientIndexRoute: typeof ClientIndexRoute
+}
+
+const ClientRouteChildren: ClientRouteChildren = {
+  ClientIndexRoute: ClientIndexRoute,
+}
+
+const ClientRouteWithChildren =
+  ClientRoute._addFileChildren(ClientRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  ClientRoute: ClientRoute,
+  ClientRoute: ClientRouteWithChildren,
   CollaborationsRoute: CollaborationsRoute,
   ContactRoute: ContactRoute,
   HowItWorksRoute: HowItWorksRoute,
