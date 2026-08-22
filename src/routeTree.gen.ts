@@ -11,13 +11,28 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as ClientRouteImport } from './routes/client'
 import { Route as CollaborationsRouteImport } from './routes/collaborations'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as SectorsRouteImport } from './routes/sectors'
 import { Route as TeamRouteImport } from './routes/team'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminMatchesRouteImport } from './routes/admin.matches'
+import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
+import { Route as AdminWasteRouteImport } from './routes/admin.waste'
+import { Route as ClientIndexRouteImport } from './routes/client.index'
+import { Route as ClientAccountRouteImport } from './routes/client.account'
+import { Route as ClientMatchesRouteImport } from './routes/client.matches'
+import { Route as ClientRecommendationsRouteImport } from './routes/client.recommendations'
+import { Route as ClientScorecardRouteImport } from './routes/client.scorecard'
+import { Route as ClientWasteRouteImport } from './routes/client.waste'
+import { Route as PartnerIndexRouteImport } from './routes/partner.index'
+import { Route as AdminAuditsNewRouteImport } from './routes/admin.audits.new'
 import { Route as AdminClientsIndexRouteImport } from './routes/admin.clients.index'
 import { Route as AdminClientsClientIdRouteImport } from './routes/admin.clients.$clientId'
 
@@ -29,6 +44,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminRoute = AdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClientRoute = ClientRouteImport.update({
+  id: '/client',
+  path: '/client',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CollaborationsRoute = CollaborationsRouteImport.update({
@@ -51,6 +71,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnerRoute = PartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SectorsRoute = SectorsRouteImport.update({
   id: '/sectors',
   path: '/sectors',
@@ -64,6 +89,71 @@ const TeamRoute = TeamRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminMatchesRoute = AdminMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPartnersRoute = AdminPartnersRouteImport.update({
+  id: '/partners',
+  path: '/partners',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminWasteRoute = AdminWasteRouteImport.update({
+  id: '/waste',
+  path: '/waste',
+  getParentRoute: () => AdminRoute,
+} as any)
+const ClientIndexRoute = ClientIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientAccountRoute = ClientAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientMatchesRoute = ClientMatchesRouteImport.update({
+  id: '/matches',
+  path: '/matches',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientRecommendationsRoute = ClientRecommendationsRouteImport.update({
+  id: '/recommendations',
+  path: '/recommendations',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientScorecardRoute = ClientScorecardRouteImport.update({
+  id: '/scorecard',
+  path: '/scorecard',
+  getParentRoute: () => ClientRoute,
+} as any)
+const ClientWasteRoute = ClientWasteRouteImport.update({
+  id: '/waste',
+  path: '/waste',
+  getParentRoute: () => ClientRoute,
+} as any)
+const PartnerIndexRoute = PartnerIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PartnerRoute,
+} as any)
+const AdminAuditsNewRoute = AdminAuditsNewRouteImport.update({
+  id: '/audits/new',
+  path: '/audits/new',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminClientsIndexRoute = AdminClientsIndexRouteImport.update({
@@ -80,13 +170,28 @@ const AdminClientsClientIdRoute = AdminClientsClientIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/client': typeof ClientRouteWithChildren
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
+  '/partner': typeof PartnerRouteWithChildren
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
+  '/admin/matches': typeof AdminMatchesRoute
+  '/admin/partners': typeof AdminPartnersRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/waste': typeof AdminWasteRoute
+  '/client/account': typeof ClientAccountRoute
+  '/client/matches': typeof ClientMatchesRoute
+  '/client/recommendations': typeof ClientRecommendationsRoute
+  '/client/scorecard': typeof ClientScorecardRoute
+  '/client/waste': typeof ClientWasteRoute
   '/admin/': typeof AdminIndexRoute
+  '/client/': typeof ClientIndexRoute
+  '/partner/': typeof PartnerIndexRoute
+  '/admin/audits/new': typeof AdminAuditsNewRoute
   '/admin/clients/$clientId': typeof AdminClientsClientIdRoute
   '/admin/clients/': typeof AdminClientsIndexRoute
 }
@@ -98,7 +203,20 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
+  '/admin/matches': typeof AdminMatchesRoute
+  '/admin/partners': typeof AdminPartnersRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/waste': typeof AdminWasteRoute
+  '/client/account': typeof ClientAccountRoute
+  '/client/matches': typeof ClientMatchesRoute
+  '/client/recommendations': typeof ClientRecommendationsRoute
+  '/client/scorecard': typeof ClientScorecardRoute
+  '/client/waste': typeof ClientWasteRoute
   '/admin': typeof AdminIndexRoute
+  '/client': typeof ClientIndexRoute
+  '/partner': typeof PartnerIndexRoute
+  '/admin/audits/new': typeof AdminAuditsNewRoute
   '/admin/clients/$clientId': typeof AdminClientsClientIdRoute
   '/admin/clients': typeof AdminClientsIndexRoute
 }
@@ -106,13 +224,28 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/client': typeof ClientRouteWithChildren
   '/collaborations': typeof CollaborationsRoute
   '/contact': typeof ContactRoute
   '/how-it-works': typeof HowItWorksRoute
   '/login': typeof LoginRoute
+  '/partner': typeof PartnerRouteWithChildren
   '/sectors': typeof SectorsRoute
   '/team': typeof TeamRoute
+  '/admin/matches': typeof AdminMatchesRoute
+  '/admin/partners': typeof AdminPartnersRoute
+  '/admin/reports': typeof AdminReportsRoute
+  '/admin/users': typeof AdminUsersRoute
+  '/admin/waste': typeof AdminWasteRoute
+  '/client/account': typeof ClientAccountRoute
+  '/client/matches': typeof ClientMatchesRoute
+  '/client/recommendations': typeof ClientRecommendationsRoute
+  '/client/scorecard': typeof ClientScorecardRoute
+  '/client/waste': typeof ClientWasteRoute
   '/admin/': typeof AdminIndexRoute
+  '/client/': typeof ClientIndexRoute
+  '/partner/': typeof PartnerIndexRoute
+  '/admin/audits/new': typeof AdminAuditsNewRoute
   '/admin/clients/$clientId': typeof AdminClientsClientIdRoute
   '/admin/clients/': typeof AdminClientsIndexRoute
 }
@@ -121,13 +254,28 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/client'
     | '/collaborations'
     | '/contact'
     | '/how-it-works'
     | '/login'
+    | '/partner'
     | '/sectors'
     | '/team'
+    | '/admin/matches'
+    | '/admin/partners'
+    | '/admin/reports'
+    | '/admin/users'
+    | '/admin/waste'
+    | '/client/account'
+    | '/client/matches'
+    | '/client/recommendations'
+    | '/client/scorecard'
+    | '/client/waste'
     | '/admin/'
+    | '/client/'
+    | '/partner/'
+    | '/admin/audits/new'
     | '/admin/clients/$clientId'
     | '/admin/clients/'
   fileRoutesByTo: FileRoutesByTo
@@ -139,20 +287,48 @@ export interface FileRouteTypes {
     | '/login'
     | '/sectors'
     | '/team'
+    | '/admin/matches'
+    | '/admin/partners'
+    | '/admin/reports'
+    | '/admin/users'
+    | '/admin/waste'
+    | '/client/account'
+    | '/client/matches'
+    | '/client/recommendations'
+    | '/client/scorecard'
+    | '/client/waste'
     | '/admin'
+    | '/client'
+    | '/partner'
+    | '/admin/audits/new'
     | '/admin/clients/$clientId'
     | '/admin/clients'
   id:
     | '__root__'
     | '/'
     | '/admin'
+    | '/client'
     | '/collaborations'
     | '/contact'
     | '/how-it-works'
     | '/login'
+    | '/partner'
     | '/sectors'
     | '/team'
+    | '/admin/matches'
+    | '/admin/partners'
+    | '/admin/reports'
+    | '/admin/users'
+    | '/admin/waste'
+    | '/client/account'
+    | '/client/matches'
+    | '/client/recommendations'
+    | '/client/scorecard'
+    | '/client/waste'
     | '/admin/'
+    | '/client/'
+    | '/partner/'
+    | '/admin/audits/new'
     | '/admin/clients/$clientId'
     | '/admin/clients/'
   fileRoutesById: FileRoutesById
@@ -160,10 +336,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  ClientRoute: typeof ClientRouteWithChildren
   CollaborationsRoute: typeof CollaborationsRoute
   ContactRoute: typeof ContactRoute
   HowItWorksRoute: typeof HowItWorksRoute
   LoginRoute: typeof LoginRoute
+  PartnerRoute: typeof PartnerRouteWithChildren
   SectorsRoute: typeof SectorsRoute
   TeamRoute: typeof TeamRoute
 }
@@ -182,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/client': {
+      id: '/client'
+      path: '/client'
+      fullPath: '/client'
+      preLoaderRoute: typeof ClientRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/collaborations': {
@@ -212,6 +397,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partner': {
+      id: '/partner'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof PartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sectors': {
       id: '/sectors'
       path: '/sectors'
@@ -233,6 +425,97 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/matches': {
+      id: '/admin/matches'
+      path: '/matches'
+      fullPath: '/admin/matches'
+      preLoaderRoute: typeof AdminMatchesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/partners': {
+      id: '/admin/partners'
+      path: '/partners'
+      fullPath: '/admin/partners'
+      preLoaderRoute: typeof AdminPartnersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/waste': {
+      id: '/admin/waste'
+      path: '/waste'
+      fullPath: '/admin/waste'
+      preLoaderRoute: typeof AdminWasteRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/client/': {
+      id: '/client/'
+      path: '/'
+      fullPath: '/client/'
+      preLoaderRoute: typeof ClientIndexRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/client/account': {
+      id: '/client/account'
+      path: '/account'
+      fullPath: '/client/account'
+      preLoaderRoute: typeof ClientAccountRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/client/matches': {
+      id: '/client/matches'
+      path: '/matches'
+      fullPath: '/client/matches'
+      preLoaderRoute: typeof ClientMatchesRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/client/recommendations': {
+      id: '/client/recommendations'
+      path: '/recommendations'
+      fullPath: '/client/recommendations'
+      preLoaderRoute: typeof ClientRecommendationsRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/client/scorecard': {
+      id: '/client/scorecard'
+      path: '/scorecard'
+      fullPath: '/client/scorecard'
+      preLoaderRoute: typeof ClientScorecardRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/client/waste': {
+      id: '/client/waste'
+      path: '/waste'
+      fullPath: '/client/waste'
+      preLoaderRoute: typeof ClientWasteRouteImport
+      parentRoute: typeof ClientRoute
+    }
+    '/partner/': {
+      id: '/partner/'
+      path: '/'
+      fullPath: '/partner/'
+      preLoaderRoute: typeof PartnerIndexRouteImport
+      parentRoute: typeof PartnerRoute
+    }
+    '/admin/audits/new': {
+      id: '/admin/audits/new'
+      path: '/audits/new'
+      fullPath: '/admin/audits/new'
+      preLoaderRoute: typeof AdminAuditsNewRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/clients/': {
       id: '/admin/clients/'
       path: '/clients'
@@ -251,26 +534,72 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminMatchesRoute: typeof AdminMatchesRoute
+  AdminPartnersRoute: typeof AdminPartnersRoute
+  AdminReportsRoute: typeof AdminReportsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminWasteRoute: typeof AdminWasteRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminAuditsNewRoute: typeof AdminAuditsNewRoute
   AdminClientsClientIdRoute: typeof AdminClientsClientIdRoute
   AdminClientsIndexRoute: typeof AdminClientsIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminMatchesRoute: AdminMatchesRoute,
+  AdminPartnersRoute: AdminPartnersRoute,
+  AdminReportsRoute: AdminReportsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminWasteRoute: AdminWasteRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminAuditsNewRoute: AdminAuditsNewRoute,
   AdminClientsClientIdRoute: AdminClientsClientIdRoute,
   AdminClientsIndexRoute: AdminClientsIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface ClientRouteChildren {
+  ClientAccountRoute: typeof ClientAccountRoute
+  ClientMatchesRoute: typeof ClientMatchesRoute
+  ClientRecommendationsRoute: typeof ClientRecommendationsRoute
+  ClientScorecardRoute: typeof ClientScorecardRoute
+  ClientWasteRoute: typeof ClientWasteRoute
+  ClientIndexRoute: typeof ClientIndexRoute
+}
+
+const ClientRouteChildren: ClientRouteChildren = {
+  ClientAccountRoute: ClientAccountRoute,
+  ClientMatchesRoute: ClientMatchesRoute,
+  ClientRecommendationsRoute: ClientRecommendationsRoute,
+  ClientScorecardRoute: ClientScorecardRoute,
+  ClientWasteRoute: ClientWasteRoute,
+  ClientIndexRoute: ClientIndexRoute,
+}
+
+const ClientRouteWithChildren =
+  ClientRoute._addFileChildren(ClientRouteChildren)
+
+interface PartnerRouteChildren {
+  PartnerIndexRoute: typeof PartnerIndexRoute
+}
+
+const PartnerRouteChildren: PartnerRouteChildren = {
+  PartnerIndexRoute: PartnerIndexRoute,
+}
+
+const PartnerRouteWithChildren =
+  PartnerRoute._addFileChildren(PartnerRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  ClientRoute: ClientRouteWithChildren,
   CollaborationsRoute: CollaborationsRoute,
   ContactRoute: ContactRoute,
   HowItWorksRoute: HowItWorksRoute,
   LoginRoute: LoginRoute,
+  PartnerRoute: PartnerRouteWithChildren,
   SectorsRoute: SectorsRoute,
   TeamRoute: TeamRoute,
 }
