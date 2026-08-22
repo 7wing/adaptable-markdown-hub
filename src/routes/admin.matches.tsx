@@ -44,8 +44,8 @@ function Matches() {
                 // TODO(api): POST /matches
                 addMatch({
                   entryAId: draft.entryAId,
-                  entryBId: draft.entryBId || undefined,
-                  partnerId: draft.partnerId || undefined,
+                  ...(draft.entryBId ? { entryBId: draft.entryBId } : {}),
+                  ...(draft.partnerId ? { partnerId: draft.partnerId } : {}),
                   status: "proposed",
                   reasoning: draft.reasoning,
                   distanceKm: Number(draft.distanceKm) || 0,
