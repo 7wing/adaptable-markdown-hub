@@ -32,6 +32,7 @@ import { Route as ClientRecommendationsRouteImport } from './routes/client.recom
 import { Route as ClientScorecardRouteImport } from './routes/client.scorecard'
 import { Route as ClientWasteRouteImport } from './routes/client.waste'
 import { Route as PartnerIndexRouteImport } from './routes/partner.index'
+import { Route as PartnerQuoteRouteImport } from './routes/partner.quote'
 import { Route as PartnerRequestsRouteImport } from './routes/partner.requests'
 import { Route as AdminAuditsNewRouteImport } from './routes/admin.audits.new'
 import { Route as AdminClientsIndexRouteImport } from './routes/admin.clients.index'
@@ -152,6 +153,11 @@ const PartnerIndexRoute = PartnerIndexRouteImport.update({
   path: '/',
   getParentRoute: () => PartnerRoute,
 } as any)
+const PartnerQuoteRoute = PartnerQuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
+  getParentRoute: () => PartnerRoute,
+} as any)
 const PartnerRequestsRoute = PartnerRequestsRouteImport.update({
   id: '/requests',
   path: '/requests',
@@ -194,6 +200,7 @@ export interface FileRoutesByFullPath {
   '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
+  '/partner/quote': typeof PartnerQuoteRoute
   '/partner/requests': typeof PartnerRequestsRoute
   '/admin/': typeof AdminIndexRoute
   '/client/': typeof ClientIndexRoute
@@ -220,6 +227,7 @@ export interface FileRoutesByTo {
   '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
+  '/partner/quote': typeof PartnerQuoteRoute
   '/partner/requests': typeof PartnerRequestsRoute
   '/admin': typeof AdminIndexRoute
   '/client': typeof ClientIndexRoute
@@ -250,6 +258,7 @@ export interface FileRoutesById {
   '/client/recommendations': typeof ClientRecommendationsRoute
   '/client/scorecard': typeof ClientScorecardRoute
   '/client/waste': typeof ClientWasteRoute
+  '/partner/quote': typeof PartnerQuoteRoute
   '/partner/requests': typeof PartnerRequestsRoute
   '/admin/': typeof AdminIndexRoute
   '/client/': typeof ClientIndexRoute
@@ -281,6 +290,7 @@ export interface FileRouteTypes {
     | '/client/recommendations'
     | '/client/scorecard'
     | '/client/waste'
+    | '/partner/quote'
     | '/partner/requests'
     | '/admin/'
     | '/client/'
@@ -307,6 +317,7 @@ export interface FileRouteTypes {
     | '/client/recommendations'
     | '/client/scorecard'
     | '/client/waste'
+    | '/partner/quote'
     | '/partner/requests'
     | '/admin'
     | '/client'
@@ -336,6 +347,7 @@ export interface FileRouteTypes {
     | '/client/recommendations'
     | '/client/scorecard'
     | '/client/waste'
+    | '/partner/quote'
     | '/partner/requests'
     | '/admin/'
     | '/client/'
@@ -521,6 +533,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerIndexRouteImport
       parentRoute: typeof PartnerRoute
     }
+    '/partner/quote': {
+      id: '/partner/quote'
+      path: '/quote'
+      fullPath: '/partner/quote'
+      preLoaderRoute: typeof PartnerQuoteRouteImport
+      parentRoute: typeof PartnerRoute
+    }
     '/partner/requests': {
       id: '/partner/requests'
       path: '/requests'
@@ -600,11 +619,13 @@ const ClientRouteWithChildren =
   ClientRoute._addFileChildren(ClientRouteChildren)
 
 interface PartnerRouteChildren {
+  PartnerQuoteRoute: typeof PartnerQuoteRoute
   PartnerRequestsRoute: typeof PartnerRequestsRoute
   PartnerIndexRoute: typeof PartnerIndexRoute
 }
 
 const PartnerRouteChildren: PartnerRouteChildren = {
+  PartnerQuoteRoute: PartnerQuoteRoute,
   PartnerRequestsRoute: PartnerRequestsRoute,
   PartnerIndexRoute: PartnerIndexRoute,
 }
