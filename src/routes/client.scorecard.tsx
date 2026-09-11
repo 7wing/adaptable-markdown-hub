@@ -34,7 +34,9 @@ function Scorecard() {
     <AppShell role="client" title="AUDIT SCORECARD" subtitle="How your site scores, and why">
       {!latest ? (
         <Panel title="No audit yet">
-          <p className="text-sm opacity-50">Your scorecard appears here once your audit is completed.</p>
+          <p className="text-sm opacity-50">
+            Your scorecard appears here once your audit is completed.
+          </p>
         </Panel>
       ) : (
         <div className="space-y-6">
@@ -51,7 +53,9 @@ function Scorecard() {
                   <div>{latest.energySource}</div>
                 </div>
                 <div>
-                  <div className="mb-1 uppercase tracking-widest opacity-40">Monthly energy cost</div>
+                  <div className="mb-1 uppercase tracking-widest opacity-40">
+                    Monthly energy cost
+                  </div>
                   <div>KES {latest.energyCostMonthly.toLocaleString()}</div>
                 </div>
                 <div>
@@ -64,7 +68,9 @@ function Scorecard() {
                 </div>
               </div>
             </div>
-            <p className="mt-8 max-w-3xl border-l-2 border-ochre pl-4 text-sm opacity-70">{latest.summary}</p>
+            <p className="mt-8 max-w-3xl border-l-2 border-ochre pl-4 text-sm opacity-70">
+              {latest.summary}
+            </p>
           </Panel>
 
           <Panel title="Score history">
@@ -99,7 +105,9 @@ function Scorecard() {
                   <li key={r.id} className="flex items-center justify-between py-3">
                     <span>Audit report · {r.generatedAt}</span>
                     {/* TODO(api): link to the generated PDF returned by your backend */}
-                    <Tag tone={r.sent ? "ok" : "warn"}>{r.sent ? "available" : "in preparation"}</Tag>
+                    <Tag tone={r.sent ? "ok" : "warn"}>
+                      {r.sent ? "available" : "in preparation"}
+                    </Tag>
                   </li>
                 ))}
               </ul>

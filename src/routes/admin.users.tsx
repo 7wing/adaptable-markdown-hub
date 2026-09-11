@@ -2,7 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 import type { Role } from "@/lib/afadhali/types";
 
@@ -13,7 +20,12 @@ export const Route = createFileRoute("/admin/users")({
 function Users() {
   const { users, clients, partners, addUser, updateUser } = useAfadhali();
   const [inviting, setInviting] = useState(false);
-  const [draft, setDraft] = useState<{ name: string; email: string; role: Role; organisationId: string }>({
+  const [draft, setDraft] = useState<{
+    name: string;
+    email: string;
+    role: Role;
+    organisationId: string;
+  }>({
     name: "",
     email: "",
     role: "client",
@@ -32,7 +44,11 @@ function Users() {
       role="admin"
       title="USERS & ACCESS"
       subtitle="Who can sign in, and which portal they land on"
-      actions={<ActionButton onClick={() => setInviting((v) => !v)}>{inviting ? "Close" : "Invite user"}</ActionButton>}
+      actions={
+        <ActionButton onClick={() => setInviting((v) => !v)}>
+          {inviting ? "Close" : "Invite user"}
+        </ActionButton>
+      }
     >
       <div className="space-y-6">
         {inviting ? (
@@ -58,16 +74,29 @@ function Users() {
               }}
             >
               <Field label="Full name">
-                <input required className={inputClass} value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.name}
+                  onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+                />
               </Field>
               <Field label="Email">
-                <input required type="email" className={inputClass} value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+                <input
+                  required
+                  type="email"
+                  className={inputClass}
+                  value={draft.email}
+                  onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+                />
               </Field>
               <Field label="Role">
                 <select
                   className={inputClass}
                   value={draft.role}
-                  onChange={(e) => setDraft({ ...draft, role: e.target.value as Role, organisationId: "" })}
+                  onChange={(e) =>
+                    setDraft({ ...draft, role: e.target.value as Role, organisationId: "" })
+                  }
                 >
                   <option value="admin">Admin</option>
                   <option value="client">Client</option>
@@ -81,7 +110,9 @@ function Users() {
                   onChange={(e) => setDraft({ ...draft, organisationId: e.target.value })}
                   disabled={orgOptions.length === 0}
                 >
-                  <option value="">{orgOptions.length === 0 ? "Not applicable" : "Select organisation"}</option>
+                  <option value="">
+                    {orgOptions.length === 0 ? "Not applicable" : "Select organisation"}
+                  </option>
                   {orgOptions.map((o) => (
                     <option key={o.id} value={o.id}>
                       {o.name}
@@ -119,7 +150,9 @@ function Users() {
                   <td className="py-3 text-right">
                     <button
                       className="uppercase tracking-widest hover:text-primary"
-                      onClick={() => updateUser(u.id, { status: u.status === "active" ? "inactive" : "active" })}
+                      onClick={() =>
+                        updateUser(u.id, { status: u.status === "active" ? "inactive" : "active" })
+                      }
                     >
                       {u.status}
                     </button>

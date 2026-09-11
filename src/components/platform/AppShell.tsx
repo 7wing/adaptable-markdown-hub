@@ -51,7 +51,10 @@ export function AppShell({
     <div className="min-h-screen bg-foreground text-background">
       <header className="border-b border-background/10">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Link to="/" className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter">
+          <Link
+            to="/"
+            className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter"
+          >
             <span className="size-4 bg-primary" />
             AFADHALI / {role.toUpperCase()}
           </Link>
@@ -77,7 +80,9 @@ export function AppShell({
           <div>
             <h1 className="mb-2 text-3xl font-extrabold tracking-tight">{title}</h1>
             {subtitle ? (
-              <p className="font-mono text-[10px] uppercase tracking-widest opacity-50">{subtitle}</p>
+              <p className="font-mono text-[10px] uppercase tracking-widest opacity-50">
+                {subtitle}
+              </p>
             ) : null}
           </div>
           {actions}
@@ -140,7 +145,13 @@ export function Stat({ label, value, accent }: { label: string; value: string; a
   );
 }
 
-export function Tag({ tone = "neutral", children }: { tone?: "neutral" | "warn" | "ok" | "bad"; children: ReactNode }) {
+export function Tag({
+  tone = "neutral",
+  children,
+}: {
+  tone?: "neutral" | "warn" | "ok" | "bad";
+  children: ReactNode;
+}) {
   const tones = {
     neutral: "bg-background/10 text-background/50",
     warn: "bg-ochre/20 text-ochre",
@@ -180,13 +191,7 @@ export function ActionButton({
   );
 }
 
-export function Field({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
+export function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
       <span className="mb-2 block font-mono text-[10px] uppercase tracking-widest opacity-50">

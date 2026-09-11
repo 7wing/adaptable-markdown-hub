@@ -8,7 +8,8 @@ export const Route = createFileRoute("/partner")({
       { title: "Partner portal — Afadhali" },
       {
         name: "description",
-        content: "Incoming material requests, quotes and scheduled collection jobs for Afadhali partners.",
+        content:
+          "Incoming material requests, quotes and scheduled collection jobs for Afadhali partners.",
       },
       { property: "og:title", content: "Afadhali partner portal" },
       { property: "og:description", content: "Respond to requests, submit quotes and track jobs." },

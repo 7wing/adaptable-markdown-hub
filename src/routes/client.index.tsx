@@ -32,7 +32,9 @@ function ClientHome() {
       role="client"
       title={(client?.company ?? "YOUR SITE").toUpperCase()}
       subtitle={client ? `${client.sector} · ${client.location}` : "Waiting for your first audit"}
-      actions={<Stat label="Overall score" value={latest ? String(latest.overallScore) : "—"} accent />}
+      actions={
+        <Stat label="Overall score" value={latest ? String(latest.overallScore) : "—"} accent />
+      }
     >
       <div className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -45,7 +47,10 @@ function ClientHome() {
         <Panel
           title="Latest audit summary"
           actions={
-            <Link to="/client/scorecard" className="font-mono text-[10px] uppercase tracking-widest text-primary">
+            <Link
+              to="/client/scorecard"
+              className="font-mono text-[10px] uppercase tracking-widest text-primary"
+            >
               Full scorecard →
             </Link>
           }
@@ -61,7 +66,8 @@ function ClientHome() {
             </div>
           ) : (
             <p className="text-sm opacity-50">
-              Your audit has not been recorded yet. Our team will publish results here after the site visit.
+              Your audit has not been recorded yet. Our team will publish results here after the
+              site visit.
             </p>
           )}
         </Panel>
@@ -70,7 +76,10 @@ function ClientHome() {
           <Panel
             title="Matches for your materials"
             actions={
-              <Link to="/client/matches" className="font-mono text-[10px] uppercase tracking-widest text-primary">
+              <Link
+                to="/client/matches"
+                className="font-mono text-[10px] uppercase tracking-widest text-primary"
+              >
                 Review →
               </Link>
             }

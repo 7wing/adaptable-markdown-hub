@@ -23,21 +23,33 @@ function PartnerHome() {
     <AppShell
       role="partner"
       title={(partner?.company ?? "PARTNER").toUpperCase()}
-      subtitle={partner ? `${partner.serviceArea} · ${partner.offers.join(", ")}` : "Partner workspace"}
+      subtitle={
+        partner ? `${partner.serviceArea} · ${partner.offers.join(", ")}` : "Partner workspace"
+      }
       actions={<Stat label="Open requests" value={String(myRequests.length)} accent />}
     >
       <div className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Stat label="Requests" value={String(myRequests.length)} />
           <Stat label="Quotes submitted" value={String(myQuotes.length)} />
-          <Stat label="Quotes accepted" value={String(myQuotes.filter((q) => q.status === "accepted").length)} accent />
-          <Stat label="Jobs in progress" value={String(myJobs.filter((j) => j.status !== "completed").length)} />
+          <Stat
+            label="Quotes accepted"
+            value={String(myQuotes.filter((q) => q.status === "accepted").length)}
+            accent
+          />
+          <Stat
+            label="Jobs in progress"
+            value={String(myJobs.filter((j) => j.status !== "completed").length)}
+          />
         </div>
 
         <Panel
           title="Latest material requests"
           actions={
-            <Link to="/partner/requests" className="font-mono text-[10px] uppercase tracking-widest text-primary">
+            <Link
+              to="/partner/requests"
+              className="font-mono text-[10px] uppercase tracking-widest text-primary"
+            >
               All requests →
             </Link>
           }
@@ -59,7 +71,10 @@ function PartnerHome() {
         <Panel
           title="Scheduled jobs"
           actions={
-            <Link to="/partner/jobs" className="font-mono text-[10px] uppercase tracking-widest text-primary">
+            <Link
+              to="/partner/jobs"
+              className="font-mono text-[10px] uppercase tracking-widest text-primary"
+            >
               Manage →
             </Link>
           }
@@ -73,7 +88,9 @@ function PartnerHome() {
                   <span className="text-xs opacity-70">
                     {clientName(j.clientId)} · {j.description}
                   </span>
-                  <Tag tone={j.status === "completed" ? "ok" : "warn"}>{j.status.replace("_", " ")}</Tag>
+                  <Tag tone={j.status === "completed" ? "ok" : "warn"}>
+                    {j.status.replace("_", " ")}
+                  </Tag>
                 </li>
               ))}
             </ul>

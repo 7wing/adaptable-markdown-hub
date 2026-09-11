@@ -2,7 +2,15 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Stat, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Stat,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/clients/$clientId")({
@@ -22,7 +30,8 @@ function ClientProfile() {
   const clientWaste = waste.filter((w) => w.clientId === client.id);
   const clientWasteIds = clientWaste.map((w) => w.id);
   const clientMatches = matches.filter(
-    (m) => clientWasteIds.includes(m.entryAId) || (m.entryBId && clientWasteIds.includes(m.entryBId)),
+    (m) =>
+      clientWasteIds.includes(m.entryAId) || (m.entryBId && clientWasteIds.includes(m.entryBId)),
   );
   const clientRecs = recommendations.filter((r) => r.clientId === client.id);
   const clientReports = reports.filter((r) => r.clientId === client.id);

@@ -23,15 +23,42 @@ export const Route = createFileRoute("/sectors")({
 });
 
 const sectors = [
-  { name: "Coffee and tea", finding: "Seasonal pulp and husk volumes heaped on site with no offtaker." },
-  { name: "Manufacturing", finding: "Mill scale and metal offcuts sold below value; oversized motors." },
-  { name: "Hospitality", finding: "Kitchen organics mixed with packaging; furnace-oil laundry boilers." },
-  { name: "Digital infrastructure", finding: "Diesel backup runtime and cooling load far above design." },
-  { name: "Agriculture", finding: "Crop residue burned in field while neighbours buy soil conditioner." },
-  { name: "Healthcare", finding: "Non-hazardous packaging routed through costly clinical waste streams." },
-  { name: "Construction", finding: "Rubble and formwork timber landfilled within reach of a re-user." },
-  { name: "Transport", finding: "Used oil, tyres and batteries stored without a recovery channel." },
-  { name: "Education", finding: "Canteen organics and paper volumes large enough to justify a digester." },
+  {
+    name: "Coffee and tea",
+    finding: "Seasonal pulp and husk volumes heaped on site with no offtaker.",
+  },
+  {
+    name: "Manufacturing",
+    finding: "Mill scale and metal offcuts sold below value; oversized motors.",
+  },
+  {
+    name: "Hospitality",
+    finding: "Kitchen organics mixed with packaging; furnace-oil laundry boilers.",
+  },
+  {
+    name: "Digital infrastructure",
+    finding: "Diesel backup runtime and cooling load far above design.",
+  },
+  {
+    name: "Agriculture",
+    finding: "Crop residue burned in field while neighbours buy soil conditioner.",
+  },
+  {
+    name: "Healthcare",
+    finding: "Non-hazardous packaging routed through costly clinical waste streams.",
+  },
+  {
+    name: "Construction",
+    finding: "Rubble and formwork timber landfilled within reach of a re-user.",
+  },
+  {
+    name: "Transport",
+    finding: "Used oil, tyres and batteries stored without a recovery channel.",
+  },
+  {
+    name: "Education",
+    finding: "Canteen organics and paper volumes large enough to justify a digester.",
+  },
   { name: "Retail", finding: "Single-use plastic and cardboard flowing out daily, uncounted." },
   { name: "Textiles", finding: "Cotton offcuts and dye water discharged with no reuse pathway." },
   { name: "Mining", finding: "Tailings and scrap steel with unmeasured recovery potential." },

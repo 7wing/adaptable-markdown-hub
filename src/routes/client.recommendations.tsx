@@ -27,7 +27,13 @@ function Recommendations() {
       role="client"
       title="RECOMMENDATIONS"
       subtitle="Efficiency and swap actions ranked by our auditors"
-      actions={<Stat label="Open" value={String(mine.filter((r) => r.status === "suggested").length)} accent />}
+      actions={
+        <Stat
+          label="Open"
+          value={String(mine.filter((r) => r.status === "suggested").length)}
+          accent
+        />
+      }
     >
       <Panel title="Suggested actions">
         {mine.length === 0 ? (
@@ -43,7 +49,9 @@ function Recommendations() {
                     <div className="max-w-2xl">
                       <div className="text-sm font-bold">{r.title}</div>
                       <p className="mt-2 text-xs opacity-60">{r.description}</p>
-                      <p className="mt-2 border-l-2 border-ochre pl-3 text-xs opacity-70">{r.benefit}</p>
+                      <p className="mt-2 border-l-2 border-ochre pl-3 text-xs opacity-70">
+                        {r.benefit}
+                      </p>
                       {partner ? (
                         <div className="mt-2 font-mono text-[10px] uppercase tracking-widest opacity-40">
                           Suggested partner · {partner.company}
@@ -68,7 +76,10 @@ function Recommendations() {
                           >
                             Request quote
                           </ActionButton>
-                          <ActionButton variant="ghost" onClick={() => setRecommendationStatus(r.id, "dismissed")}>
+                          <ActionButton
+                            variant="ghost"
+                            onClick={() => setRecommendationStatus(r.id, "dismissed")}
+                          >
                             Not now
                           </ActionButton>
                         </>

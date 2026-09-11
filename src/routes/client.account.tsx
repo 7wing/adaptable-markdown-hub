@@ -35,16 +35,32 @@ function Account() {
             }}
           >
             <Field label="Contact person">
-              <input className={inputClass} value={form.contactPerson} onChange={(e) => setForm({ ...form, contactPerson: e.target.value })} />
+              <input
+                className={inputClass}
+                value={form.contactPerson}
+                onChange={(e) => setForm({ ...form, contactPerson: e.target.value })}
+              />
             </Field>
             <Field label="Email">
-              <input className={inputClass} value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+              <input
+                className={inputClass}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
             </Field>
             <Field label="Phone">
-              <input className={inputClass} value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <input
+                className={inputClass}
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              />
             </Field>
             <Field label="Site location">
-              <input className={inputClass} value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} />
+              <input
+                className={inputClass}
+                value={form.location}
+                onChange={(e) => setForm({ ...form, location: e.target.value })}
+              />
             </Field>
             <div className="sm:col-span-2">
               <ActionButton type="submit">Save changes</ActionButton>
@@ -64,7 +80,10 @@ function Account() {
               Password changes are handled by your authentication provider once connected.
             </p>
             <div className="flex gap-3">
-              <ActionButton variant="ghost" onClick={() => toast.info("Connect an auth provider to enable this")}>
+              <ActionButton
+                variant="ghost"
+                onClick={() => toast.info("Connect an auth provider to enable this")}
+              >
                 Change password
               </ActionButton>
               <ActionButton variant="ghost" onClick={signOut}>

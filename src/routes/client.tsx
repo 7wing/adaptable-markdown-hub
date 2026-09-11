@@ -11,7 +11,10 @@ export const Route = createFileRoute("/client")({
         content: "Your audit scorecard, waste streams, matches and recommendations in one place.",
       },
       { property: "og:title", content: "Afadhali client portal" },
-      { property: "og:description", content: "Track your audit results, matches and next actions." },
+      {
+        property: "og:description",
+        content: "Track your audit results, matches and next actions.",
+      },
     ],
   }),
   component: ClientLayout,

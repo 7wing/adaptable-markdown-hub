@@ -7,11 +7,7 @@ export type Role = "admin" | "client" | "partner";
 export type AuditStatus = "not_started" | "in_progress" | "completed";
 export type WasteStatus = "unmatched" | "matched" | "resolved";
 export type MatchStatus =
-  | "proposed"
-  | "approved"
-  | "rejected"
-  | "accepted_by_client"
-  | "declined_by_client";
+  "proposed" | "approved" | "rejected" | "accepted_by_client" | "declined_by_client";
 export type RecommendationStatus = "suggested" | "quote_requested" | "dismissed" | "completed";
 export type JobStatus = "scheduled" | "in_progress" | "completed";
 

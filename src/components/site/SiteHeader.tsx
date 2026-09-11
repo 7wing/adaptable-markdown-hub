@@ -11,7 +11,10 @@ export function SiteHeader() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-        <Link to="/" className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter">
+        <Link
+          to="/"
+          className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter"
+        >
           <span className="size-4 bg-primary" />
           AFADHALI
         </Link>

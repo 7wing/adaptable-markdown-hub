@@ -21,7 +21,8 @@ function ClientMatches() {
       m.status !== "proposed" &&
       m.status !== "rejected",
   );
-  const materialOf = (id?: string) => (id ? (waste.find((w) => w.id === id)?.material ?? "—") : "—");
+  const materialOf = (id?: string) =>
+    id ? (waste.find((w) => w.id === id)?.material ?? "—") : "—";
 
   return (
     <AppShell
@@ -38,7 +39,9 @@ function ClientMatches() {
     >
       <Panel title="Approved options">
         {visible.length === 0 ? (
-          <p className="text-sm opacity-50">Nothing shared with you yet. We publish matches once verified.</p>
+          <p className="text-sm opacity-50">
+            Nothing shared with you yet. We publish matches once verified.
+          </p>
         ) : (
           <ul className="divide-y divide-background/10">
             {visible.map((m) => (
@@ -58,7 +61,15 @@ function ClientMatches() {
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Tag tone={m.status === "accepted_by_client" ? "ok" : m.status === "declined_by_client" ? "bad" : "warn"}>
+                    <Tag
+                      tone={
+                        m.status === "accepted_by_client"
+                          ? "ok"
+                          : m.status === "declined_by_client"
+                            ? "bad"
+                            : "warn"
+                      }
+                    >
                       {m.status.replace(/_/g, " ")}
                     </Tag>
                     {m.status === "approved" ? (
@@ -71,7 +82,10 @@ function ClientMatches() {
                         >
                           Accept
                         </ActionButton>
-                        <ActionButton variant="ghost" onClick={() => setMatchStatus(m.id, "declined_by_client")}>
+                        <ActionButton
+                          variant="ghost"
+                          onClick={() => setMatchStatus(m.id, "declined_by_client")}
+                        >
                           Decline
                         </ActionButton>
                       </>

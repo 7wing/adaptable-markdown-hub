@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Stat, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Stat,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/waste")({
@@ -19,7 +27,8 @@ function WasteRegistry() {
   const materials = useMemo(() => Array.from(new Set(waste.map((w) => w.material))), [waste]);
   const clientName = (id: string) => clients.find((c) => c.id === id)?.company ?? "Unknown";
   const filtered = waste.filter(
-    (w) => (material === "all" || w.material === material) && (status === "all" || w.status === status),
+    (w) =>
+      (material === "all" || w.material === material) && (status === "all" || w.status === status),
   );
 
   return (
@@ -30,14 +39,22 @@ function WasteRegistry() {
       actions={
         <div className="flex gap-4">
           <Stat label="Streams" value={String(waste.length)} />
-          <Stat label="Unmatched" value={String(waste.filter((w) => w.status === "unmatched").length)} accent />
+          <Stat
+            label="Unmatched"
+            value={String(waste.filter((w) => w.status === "unmatched").length)}
+            accent
+          />
         </div>
       }
     >
       <Panel title="All streams">
         <div className="mb-6 grid gap-4 sm:grid-cols-2">
           <Field label="Material">
-            <select className={inputClass} value={material} onChange={(e) => setMaterial(e.target.value)}>
+            <select
+              className={inputClass}
+              value={material}
+              onChange={(e) => setMaterial(e.target.value)}
+            >
               <option value="all">All materials</option>
               {materials.map((m) => (
                 <option key={m} value={m}>
@@ -47,7 +64,11 @@ function WasteRegistry() {
             </select>
           </Field>
           <Field label="Status">
-            <select className={inputClass} value={status} onChange={(e) => setStatus(e.target.value)}>
+            <select
+              className={inputClass}
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+            >
               <option value="all">Any status</option>
               <option value="unmatched">Unmatched</option>
               <option value="matched">Matched</option>
@@ -70,7 +91,11 @@ function WasteRegistry() {
                   {w.notes ? <p className="mt-2 text-xs opacity-60">{w.notes}</p> : null}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <Tag tone={w.status === "unmatched" ? "warn" : w.status === "resolved" ? "ok" : "neutral"}>
+                  <Tag
+                    tone={
+                      w.status === "unmatched" ? "warn" : w.status === "resolved" ? "ok" : "neutral"
+                    }
+                  >
                     {w.status}
                   </Tag>
                   <select
@@ -105,7 +130,11 @@ function WasteRegistry() {
                 >
                   <div className="min-w-[240px] flex-1">
                     <Field label="Internal note">
-                      <input className={inputClass} value={note} onChange={(e) => setNote(e.target.value)} />
+                      <input
+                        className={inputClass}
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                      />
                     </Field>
                   </div>
                   <ActionButton type="submit">Save note</ActionButton>
@@ -114,7 +143,9 @@ function WasteRegistry() {
             </li>
           ))}
         </ul>
-        {filtered.length === 0 ? <p className="py-6 text-sm opacity-50">No streams match.</p> : null}
+        {filtered.length === 0 ? (
+          <p className="py-6 text-sm opacity-50">No streams match.</p>
+        ) : null}
       </Panel>
     </AppShell>
   );

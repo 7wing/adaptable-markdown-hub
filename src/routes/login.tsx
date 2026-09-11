@@ -25,9 +25,21 @@ export const Route = createFileRoute("/login")({
 });
 
 const roles: { role: Role; label: string; blurb: string }[] = [
-  { role: "admin", label: "Afadhali staff", blurb: "Full access: clients, audits, registry, matches, partners, users, reports." },
-  { role: "client", label: "Client business", blurb: "Your scorecard, your waste registry, your matches and recommendations." },
-  { role: "partner", label: "Delivery partner", blurb: "Requests relevant to you, quotes and job status." },
+  {
+    role: "admin",
+    label: "Afadhali staff",
+    blurb: "Full access: clients, audits, registry, matches, partners, users, reports.",
+  },
+  {
+    role: "client",
+    label: "Client business",
+    blurb: "Your scorecard, your waste registry, your matches and recommendations.",
+  },
+  {
+    role: "partner",
+    label: "Delivery partner",
+    blurb: "Requests relevant to you, quotes and job status.",
+  },
 ];
 
 export default function LoginPage() {
@@ -44,11 +56,17 @@ export default function LoginPage() {
     <div className="min-h-screen bg-foreground text-background">
       <header className="border-b border-background/10">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          <Link to="/" className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter">
+          <Link
+            to="/"
+            className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter"
+          >
             <span className="size-4 bg-primary" />
             AFADHALI
           </Link>
-          <Link to="/" className="font-mono text-[10px] uppercase tracking-widest opacity-50 hover:opacity-100">
+          <Link
+            to="/"
+            className="font-mono text-[10px] uppercase tracking-widest opacity-50 hover:opacity-100"
+          >
             Back to site
           </Link>
         </div>
@@ -65,8 +83,7 @@ export default function LoginPage() {
             partner sees only the jobs relevant to what they offer.
           </p>
           <p className="mt-8 border border-ochre/30 bg-ochre/10 p-4 font-mono text-[10px] uppercase leading-relaxed tracking-widest text-ochre">
-            Demo auth — no password is checked. Wire your own provider in
-            src/lib/afadhali/auth.tsx.
+            Demo auth — no password is checked. Wire your own provider in src/lib/afadhali/auth.tsx.
           </p>
         </div>
 

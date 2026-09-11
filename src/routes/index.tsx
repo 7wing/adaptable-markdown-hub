@@ -15,7 +15,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Afadhali — Audit. Match. Swap." },
       {
         property: "og:description",
-        content: "Industrial audits, waste matching and clean-tech swaps for East African businesses.",
+        content:
+          "Industrial audits, waste matching and clean-tech swaps for East African businesses.",
       },
     ],
   }),

@@ -22,7 +22,11 @@ function ClientWaste() {
       actions={
         <div className="flex gap-4">
           <Stat label="Streams" value={String(myWaste.length)} />
-          <Stat label="Matched" value={String(myWaste.filter((w) => w.status !== "unmatched").length)} accent />
+          <Stat
+            label="Matched"
+            value={String(myWaste.filter((w) => w.status !== "unmatched").length)}
+            accent
+          />
         </div>
       }
     >

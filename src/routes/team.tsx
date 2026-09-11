@@ -47,7 +47,10 @@ const team = [
 
 const roles = [
   { title: "Energy auditor", detail: "Field role. Nairobi-based with regional travel." },
-  { title: "Business development lead", detail: "Client acquisition across manufacturing and hospitality." },
+  {
+    title: "Business development lead",
+    detail: "Client acquisition across manufacturing and hospitality.",
+  },
 ];
 
 export default function Team() {
@@ -81,7 +84,10 @@ export default function Team() {
           <h2 className="mb-10 text-3xl font-extrabold tracking-tight">OPEN ROLES</h2>
           <ul className="divide-y divide-background/10 border-y border-background/10">
             {roles.map((role) => (
-              <li key={role.title} className="flex flex-wrap items-center justify-between gap-4 py-6">
+              <li
+                key={role.title}
+                className="flex flex-wrap items-center justify-between gap-4 py-6"
+              >
                 <div>
                   <div className="text-xl font-bold">{role.title}</div>
                   <div className="mt-1 font-mono text-[10px] uppercase tracking-widest opacity-50">

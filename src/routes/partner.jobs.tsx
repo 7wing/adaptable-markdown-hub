@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Stat, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Stat,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAuth } from "@/lib/afadhali/auth";
 import { useAfadhali } from "@/lib/afadhali/store";
 import type { JobStatus } from "@/lib/afadhali/types";
@@ -26,8 +34,15 @@ function Jobs() {
       subtitle="Collections and installations assigned to you"
       actions={
         <div className="flex gap-4">
-          <Stat label="Active" value={String(myJobs.filter((j) => j.status !== "completed").length)} accent />
-          <Stat label="Completed" value={String(myJobs.filter((j) => j.status === "completed").length)} />
+          <Stat
+            label="Active"
+            value={String(myJobs.filter((j) => j.status !== "completed").length)}
+            accent
+          />
+          <Stat
+            label="Completed"
+            value={String(myJobs.filter((j) => j.status === "completed").length)}
+          />
         </div>
       }
     >
@@ -45,11 +60,15 @@ function Jobs() {
                     </div>
                     <p className="mt-2 text-xs opacity-60">{j.description}</p>
                     {j.notes ? (
-                      <p className="mt-2 border-l-2 border-ochre pl-3 text-xs opacity-50">{j.notes}</p>
+                      <p className="mt-2 border-l-2 border-ochre pl-3 text-xs opacity-50">
+                        {j.notes}
+                      </p>
                     ) : null}
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <Tag tone={j.status === "completed" ? "ok" : "warn"}>{j.status.replace("_", " ")}</Tag>
+                    <Tag tone={j.status === "completed" ? "ok" : "warn"}>
+                      {j.status.replace("_", " ")}
+                    </Tag>
                     <select
                       className="border border-background/15 bg-transparent px-2 py-1 font-mono text-[10px] uppercase tracking-widest"
                       value={j.status}
@@ -86,7 +105,11 @@ function Jobs() {
                   >
                     <div className="min-w-[240px] flex-1">
                       <Field label="Completion note">
-                        <input className={inputClass} value={note} onChange={(e) => setNote(e.target.value)} />
+                        <input
+                          className={inputClass}
+                          value={note}
+                          onChange={(e) => setNote(e.target.value)}
+                        />
                       </Field>
                     </div>
                     <ActionButton type="submit">Save note</ActionButton>

@@ -430,10 +430,7 @@ export function AfadhaliStoreProvider({ children }: { children: ReactNode }) {
       addLead: (lead) =>
         setData((d) => ({
           ...d,
-          leads: [
-            { ...lead, id: nextId("le"), createdAt: today(), converted: false },
-            ...d.leads,
-          ],
+          leads: [{ ...lead, id: nextId("le"), createdAt: today(), converted: false }, ...d.leads],
         })),
       // TODO(api): POST /clients
       addClient: (client) =>
@@ -456,10 +453,7 @@ export function AfadhaliStoreProvider({ children }: { children: ReactNode }) {
           return {
             ...d,
             audits: [{ ...audit, id: auditId }, ...d.audits],
-            waste: [
-              ...entries.map((e) => ({ ...e, id: nextId("we"), auditId })),
-              ...d.waste,
-            ],
+            waste: [...entries.map((e) => ({ ...e, id: nextId("we"), auditId })), ...d.waste],
             clients: d.clients.map((c) =>
               c.id === audit.clientId
                 ? {

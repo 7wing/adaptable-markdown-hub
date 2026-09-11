@@ -2,7 +2,14 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAuth } from "@/lib/afadhali/auth";
 import { useAfadhali } from "@/lib/afadhali/store";
 
@@ -127,11 +134,17 @@ function QuoteForm() {
               <tbody className="divide-y divide-background/5">
                 {myQuotes.map((q) => (
                   <tr key={q.id}>
-                    <td className="py-3">{clients.find((c) => c.id === q.clientId)?.company ?? "Client"}</td>
+                    <td className="py-3">
+                      {clients.find((c) => c.id === q.clientId)?.company ?? "Client"}
+                    </td>
                     <td className="py-3">KES {q.price.toLocaleString()}</td>
                     <td className="py-3">{q.timeline}</td>
                     <td className="py-3 text-right">
-                      <Tag tone={q.status === "accepted" ? "ok" : q.status === "declined" ? "bad" : "warn"}>
+                      <Tag
+                        tone={
+                          q.status === "accepted" ? "ok" : q.status === "declined" ? "bad" : "warn"
+                        }
+                      >
                         {q.status}
                       </Tag>
                     </td>

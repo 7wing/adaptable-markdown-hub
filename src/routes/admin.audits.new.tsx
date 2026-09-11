@@ -162,7 +162,10 @@ function NewAudit() {
           <Panel
             title="Waste streams observed"
             actions={
-              <ActionButton variant="ghost" onClick={() => setEntries([...entries, { ...emptyEntry }])}>
+              <ActionButton
+                variant="ghost"
+                onClick={() => setEntries([...entries, { ...emptyEntry }])}
+              >
                 Add stream
               </ActionButton>
             }
@@ -175,7 +178,9 @@ function NewAudit() {
                       className={inputClass}
                       value={entry.material}
                       onChange={(e) =>
-                        setEntries(entries.map((x, j) => (i === j ? { ...x, material: e.target.value } : x)))
+                        setEntries(
+                          entries.map((x, j) => (i === j ? { ...x, material: e.target.value } : x)),
+                        )
                       }
                     />
                   </Field>
@@ -185,7 +190,9 @@ function NewAudit() {
                       placeholder="2.4 t / month"
                       value={entry.volume}
                       onChange={(e) =>
-                        setEntries(entries.map((x, j) => (i === j ? { ...x, volume: e.target.value } : x)))
+                        setEntries(
+                          entries.map((x, j) => (i === j ? { ...x, volume: e.target.value } : x)),
+                        )
                       }
                     />
                   </Field>
@@ -195,7 +202,11 @@ function NewAudit() {
                       placeholder="Weekly"
                       value={entry.frequency}
                       onChange={(e) =>
-                        setEntries(entries.map((x, j) => (i === j ? { ...x, frequency: e.target.value } : x)))
+                        setEntries(
+                          entries.map((x, j) =>
+                            i === j ? { ...x, frequency: e.target.value } : x,
+                          ),
+                        )
                       }
                     />
                   </Field>
@@ -205,7 +216,9 @@ function NewAudit() {
                       placeholder="Landfill via private hauler"
                       value={entry.handling}
                       onChange={(e) =>
-                        setEntries(entries.map((x, j) => (i === j ? { ...x, handling: e.target.value } : x)))
+                        setEntries(
+                          entries.map((x, j) => (i === j ? { ...x, handling: e.target.value } : x)),
+                        )
                       }
                     />
                   </Field>
@@ -216,7 +229,9 @@ function NewAudit() {
                         className={inputClass}
                         value={entry.notes}
                         onChange={(e) =>
-                          setEntries(entries.map((x, j) => (i === j ? { ...x, notes: e.target.value } : x)))
+                          setEntries(
+                            entries.map((x, j) => (i === j ? { ...x, notes: e.target.value } : x)),
+                          )
                         }
                       />
                     </Field>

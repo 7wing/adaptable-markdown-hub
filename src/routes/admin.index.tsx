@@ -9,7 +9,9 @@ export const Route = createFileRoute("/admin/")({
 
 function AdminHome() {
   const { clients, audits, matches, quotes, leads } = useAfadhali();
-  const auditsThisMonth = audits.filter((a) => a.date.startsWith(new Date().toISOString().slice(0, 7)));
+  const auditsThisMonth = audits.filter((a) =>
+    a.date.startsWith(new Date().toISOString().slice(0, 7)),
+  );
   const pendingMatches = matches.filter((m) => m.status === "proposed");
   const pendingQuotes = quotes.filter((q) => q.status === "submitted");
 
@@ -28,7 +30,10 @@ function AdminHome() {
       <div className="space-y-6">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Stat label="Total clients" value={String(clients.length)} />
-          <Stat label="Audits completed" value={String(audits.filter((a) => a.status === "complete").length)} />
+          <Stat
+            label="Audits completed"
+            value={String(audits.filter((a) => a.status === "complete").length)}
+          />
           <Stat label="Matches pending" value={String(pendingMatches.length)} accent />
           <Stat label="Quotes to review" value={String(pendingQuotes.length)} accent />
         </div>
@@ -36,13 +41,18 @@ function AdminHome() {
         <Panel
           title="Matches awaiting approval"
           actions={
-            <Link to="/admin/matches" className="font-mono text-[10px] uppercase tracking-widest text-primary">
+            <Link
+              to="/admin/matches"
+              className="font-mono text-[10px] uppercase tracking-widest text-primary"
+            >
               Review →
             </Link>
           }
         >
           {pendingMatches.length === 0 ? (
-            <p className="text-sm opacity-50">Nothing waiting. All candidate matches are decided.</p>
+            <p className="text-sm opacity-50">
+              Nothing waiting. All candidate matches are decided.
+            </p>
           ) : (
             <ul className="divide-y divide-background/10">
               {pendingMatches.map((m) => (
@@ -58,7 +68,10 @@ function AdminHome() {
         <Panel
           title="New leads from the website"
           actions={
-            <Link to="/admin/clients" className="font-mono text-[10px] uppercase tracking-widest text-primary">
+            <Link
+              to="/admin/clients"
+              className="font-mono text-[10px] uppercase tracking-widest text-primary"
+            >
               Convert →
             </Link>
           }
@@ -96,7 +109,11 @@ function AdminHome() {
               {clients.map((c) => (
                 <tr key={c.id}>
                   <td className="py-3">
-                    <Link to="/admin/clients/$clientId" params={{ clientId: c.id }} className="text-primary">
+                    <Link
+                      to="/admin/clients/$clientId"
+                      params={{ clientId: c.id }}
+                      className="text-primary"
+                    >
                       {c.company}
                     </Link>
                   </td>

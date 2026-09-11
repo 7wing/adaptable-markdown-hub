@@ -15,7 +15,8 @@ export const Route = createFileRoute("/collaborations")({
       { property: "og:title", content: "Afadhali collaborations and funders" },
       {
         property: "og:description",
-        content: "Who we deliver with, and how the Audit-Match-Swap model aligns to national policy goals.",
+        content:
+          "Who we deliver with, and how the Audit-Match-Swap model aligns to national policy goals.",
       },
     ],
   }),
@@ -83,16 +84,19 @@ export default function Collaborations() {
       <section className="mx-auto max-w-7xl px-6 py-20">
         <div className="label-mono mb-8 opacity-50">Partner and funder register</div>
         <div className="grid gap-px border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-          {["Jua Solar Systems", "Biogas Kenya Engineering", "PakaPack Alternatives", "Coast EV Logistics"].map(
-            (name) => (
-              <div
-                key={name}
-                className="flex h-28 items-center justify-center bg-background px-6 text-center font-mono text-[11px] uppercase tracking-widest"
-              >
-                {name}
-              </div>
-            ),
-          )}
+          {[
+            "Jua Solar Systems",
+            "Biogas Kenya Engineering",
+            "PakaPack Alternatives",
+            "Coast EV Logistics",
+          ].map((name) => (
+            <div
+              key={name}
+              className="flex h-28 items-center justify-center bg-background px-6 text-center font-mono text-[11px] uppercase tracking-widest"
+            >
+              {name}
+            </div>
+          ))}
         </div>
         <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           Register updated as agreements are signed. Logos replace names once supplied.

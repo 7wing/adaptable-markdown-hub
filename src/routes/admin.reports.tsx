@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Stat, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Stat,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/reports")({
@@ -31,14 +39,22 @@ function Reports() {
       <div className="space-y-6">
         <Panel title="Programme totals">
           <div className="grid gap-4 sm:grid-cols-4">
-            <Stat label="Clients audited" value={String(new Set(audits.map((a) => a.clientId)).size)} />
+            <Stat
+              label="Clients audited"
+              value={String(new Set(audits.map((a) => a.clientId)).size)}
+            />
             <Stat label="Audits" value={String(audits.length)} />
-            <Stat label="Matches approved" value={String(matches.filter((m) => m.status !== "proposed").length)} />
+            <Stat
+              label="Matches approved"
+              value={String(matches.filter((m) => m.status !== "proposed").length)}
+            />
             <Stat
               label="Avg. overall score"
               value={
                 audits.length
-                  ? String(Math.round(audits.reduce((s, a) => s + a.overallScore, 0) / audits.length))
+                  ? String(
+                      Math.round(audits.reduce((s, a) => s + a.overallScore, 0) / audits.length),
+                    )
                   : "—"
               }
             />
@@ -60,7 +76,11 @@ function Reports() {
           >
             <div className="min-w-[240px]">
               <Field label="Client">
-                <select className={inputClass} value={clientId} onChange={(e) => setClientId(e.target.value)}>
+                <select
+                  className={inputClass}
+                  value={clientId}
+                  onChange={(e) => setClientId(e.target.value)}
+                >
                   {clients.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.company}

@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Stat, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Stat,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/partners")({
@@ -27,8 +35,13 @@ function Partners() {
       subtitle="Recyclers, haulers and clean-energy suppliers"
       actions={
         <div className="flex flex-wrap items-center gap-4">
-          <Stat label="Active" value={String(partners.filter((p) => p.status === "active").length)} />
-          <ActionButton onClick={() => setAdding((v) => !v)}>{adding ? "Close" : "Add partner"}</ActionButton>
+          <Stat
+            label="Active"
+            value={String(partners.filter((p) => p.status === "active").length)}
+          />
+          <ActionButton onClick={() => setAdding((v) => !v)}>
+            {adding ? "Close" : "Add partner"}
+          </ActionButton>
         </div>
       }
     >
@@ -42,33 +55,68 @@ function Partners() {
                 // TODO(api): POST /partners
                 addPartner({
                   company: draft.company,
-                  offers: draft.offers.split(",").map((s) => s.trim()).filter(Boolean),
+                  offers: draft.offers
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean),
                   serviceArea: draft.serviceArea,
                   contactPerson: draft.contactPerson,
                   email: draft.email,
                   status: "active",
                 });
                 setAdding(false);
-                setDraft({ company: "", offers: "", serviceArea: "", contactPerson: "", email: "" });
+                setDraft({
+                  company: "",
+                  offers: "",
+                  serviceArea: "",
+                  contactPerson: "",
+                  email: "",
+                });
                 toast.success("Partner added");
               }}
             >
               <Field label="Company">
-                <input required className={inputClass} value={draft.company} onChange={(e) => setDraft({ ...draft, company: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.company}
+                  onChange={(e) => setDraft({ ...draft, company: e.target.value })}
+                />
               </Field>
               <Field label="Service area">
-                <input required className={inputClass} value={draft.serviceArea} onChange={(e) => setDraft({ ...draft, serviceArea: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.serviceArea}
+                  onChange={(e) => setDraft({ ...draft, serviceArea: e.target.value })}
+                />
               </Field>
               <div className="sm:col-span-2">
                 <Field label="What they take or offer (comma separated)">
-                  <input required className={inputClass} value={draft.offers} onChange={(e) => setDraft({ ...draft, offers: e.target.value })} />
+                  <input
+                    required
+                    className={inputClass}
+                    value={draft.offers}
+                    onChange={(e) => setDraft({ ...draft, offers: e.target.value })}
+                  />
                 </Field>
               </div>
               <Field label="Contact person">
-                <input required className={inputClass} value={draft.contactPerson} onChange={(e) => setDraft({ ...draft, contactPerson: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.contactPerson}
+                  onChange={(e) => setDraft({ ...draft, contactPerson: e.target.value })}
+                />
               </Field>
               <Field label="Email">
-                <input required type="email" className={inputClass} value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+                <input
+                  required
+                  type="email"
+                  className={inputClass}
+                  value={draft.email}
+                  onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+                />
               </Field>
               <div className="sm:col-span-2">
                 <ActionButton type="submit">Save partner</ActionButton>

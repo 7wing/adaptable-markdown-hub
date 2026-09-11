@@ -45,17 +45,7 @@ export function RequireRole({ role, children }: { role: Role; children: ReactNod
   return <>{children}</>;
 }
 
-function Gate({
-  title,
-  body,
-  to,
-  cta,
-}: {
-  title: string;
-  body: string;
-  to: string;
-  cta: string;
-}) {
+function Gate({ title, body, to, cta }: { title: string; body: string; to: string; cta: string }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-foreground px-6 text-background">
       <div className="max-w-md border border-background/10 bg-background/[0.03] p-10 text-center">

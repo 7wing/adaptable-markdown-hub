@@ -57,7 +57,9 @@ function Requests() {
                       <p className="mt-3 text-xs opacity-60">{m.reasoning}</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
-                      <Tag tone={quoted ? "ok" : "warn"}>{quoted ? "quoted" : "awaiting quote"}</Tag>
+                      <Tag tone={quoted ? "ok" : "warn"}>
+                        {quoted ? "quoted" : "awaiting quote"}
+                      </Tag>
                       {!quoted ? (
                         <Link
                           to="/partner/quote"

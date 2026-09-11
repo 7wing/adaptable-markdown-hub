@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Stat, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Stat,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/matches")({
@@ -12,7 +20,13 @@ export const Route = createFileRoute("/admin/matches")({
 function Matches() {
   const { matches, waste, clients, partners, setMatchStatus, addMatch } = useAfadhali();
   const [creating, setCreating] = useState(false);
-  const [draft, setDraft] = useState({ entryAId: "", entryBId: "", partnerId: "", reasoning: "", distanceKm: "" });
+  const [draft, setDraft] = useState({
+    entryAId: "",
+    entryBId: "",
+    partnerId: "",
+    reasoning: "",
+    distanceKm: "",
+  });
 
   const entryLabel = (id?: string) => {
     if (!id) return "—";
@@ -29,8 +43,14 @@ function Matches() {
       subtitle="Candidate reuse pairings between clients and partners"
       actions={
         <div className="flex flex-wrap items-center gap-4">
-          <Stat label="Proposed" value={String(matches.filter((m) => m.status === "proposed").length)} accent />
-          <ActionButton onClick={() => setCreating((v) => !v)}>{creating ? "Close" : "Create match"}</ActionButton>
+          <Stat
+            label="Proposed"
+            value={String(matches.filter((m) => m.status === "proposed").length)}
+            accent
+          />
+          <ActionButton onClick={() => setCreating((v) => !v)}>
+            {creating ? "Close" : "Create match"}
+          </ActionButton>
         </div>
       }
     >
@@ -162,7 +182,10 @@ function Matches() {
                         >
                           Approve
                         </ActionButton>
-                        <ActionButton variant="ghost" onClick={() => setMatchStatus(m.id, "rejected")}>
+                        <ActionButton
+                          variant="ghost"
+                          onClick={() => setMatchStatus(m.id, "rejected")}
+                        >
                           Reject
                         </ActionButton>
                       </>

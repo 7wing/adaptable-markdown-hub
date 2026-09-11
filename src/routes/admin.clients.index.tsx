@@ -2,7 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 
-import { ActionButton, AppShell, Field, Panel, Tag, inputClass } from "@/components/platform/AppShell";
+import {
+  ActionButton,
+  AppShell,
+  Field,
+  Panel,
+  Tag,
+  inputClass,
+} from "@/components/platform/AppShell";
 import { useAfadhali } from "@/lib/afadhali/store";
 
 export const Route = createFileRoute("/admin/clients/")({
@@ -44,7 +51,11 @@ function ClientList() {
       role="admin"
       title="CLIENTS"
       subtitle={`${clients.length} businesses on the register`}
-      actions={<ActionButton onClick={() => setAdding((v) => !v)}>{adding ? "Close" : "Add client"}</ActionButton>}
+      actions={
+        <ActionButton onClick={() => setAdding((v) => !v)}>
+          {adding ? "Close" : "Add client"}
+        </ActionButton>
+      }
     >
       <div className="space-y-6">
         {adding ? (
@@ -56,27 +67,64 @@ function ClientList() {
                 // TODO(api): POST /clients
                 addClient({ ...draft, status: "active", auditStatus: "not_started" });
                 setAdding(false);
-                setDraft({ company: "", sector: "", location: "", contactPerson: "", email: "", phone: "" });
+                setDraft({
+                  company: "",
+                  sector: "",
+                  location: "",
+                  contactPerson: "",
+                  email: "",
+                  phone: "",
+                });
                 toast.success("Client added");
               }}
             >
               <Field label="Company">
-                <input required className={inputClass} value={draft.company} onChange={(e) => setDraft({ ...draft, company: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.company}
+                  onChange={(e) => setDraft({ ...draft, company: e.target.value })}
+                />
               </Field>
               <Field label="Sector">
-                <input required className={inputClass} value={draft.sector} onChange={(e) => setDraft({ ...draft, sector: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.sector}
+                  onChange={(e) => setDraft({ ...draft, sector: e.target.value })}
+                />
               </Field>
               <Field label="Location">
-                <input required className={inputClass} value={draft.location} onChange={(e) => setDraft({ ...draft, location: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.location}
+                  onChange={(e) => setDraft({ ...draft, location: e.target.value })}
+                />
               </Field>
               <Field label="Contact person">
-                <input required className={inputClass} value={draft.contactPerson} onChange={(e) => setDraft({ ...draft, contactPerson: e.target.value })} />
+                <input
+                  required
+                  className={inputClass}
+                  value={draft.contactPerson}
+                  onChange={(e) => setDraft({ ...draft, contactPerson: e.target.value })}
+                />
               </Field>
               <Field label="Email">
-                <input required type="email" className={inputClass} value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+                <input
+                  required
+                  type="email"
+                  className={inputClass}
+                  value={draft.email}
+                  onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+                />
               </Field>
               <Field label="Phone">
-                <input className={inputClass} value={draft.phone} onChange={(e) => setDraft({ ...draft, phone: e.target.value })} />
+                <input
+                  className={inputClass}
+                  value={draft.phone}
+                  onChange={(e) => setDraft({ ...draft, phone: e.target.value })}
+                />
               </Field>
               <div className="sm:col-span-2">
                 <ActionButton type="submit">Save client</ActionButton>
@@ -91,7 +139,10 @@ function ClientList() {
               {leads
                 .filter((l) => !l.converted)
                 .map((lead) => (
-                  <li key={lead.id} className="flex flex-wrap items-center justify-between gap-4 py-4">
+                  <li
+                    key={lead.id}
+                    className="flex flex-wrap items-center justify-between gap-4 py-4"
+                  >
                     <div>
                       <div className="text-sm font-bold">
                         {lead.company} <span className="opacity-40">· {lead.name}</span>
@@ -125,10 +176,19 @@ function ClientList() {
         <Panel title="Client register">
           <div className="mb-6 grid gap-4 sm:grid-cols-3">
             <Field label="Search">
-              <input className={inputClass} value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Company or town" />
+              <input
+                className={inputClass}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Company or town"
+              />
             </Field>
             <Field label="Sector">
-              <select className={inputClass} value={sector} onChange={(e) => setSector(e.target.value)}>
+              <select
+                className={inputClass}
+                value={sector}
+                onChange={(e) => setSector(e.target.value)}
+              >
                 <option value="all">All sectors</option>
                 {sectors.map((s) => (
                   <option key={s} value={s}>
@@ -138,7 +198,11 @@ function ClientList() {
               </select>
             </Field>
             <Field label="Audit status">
-              <select className={inputClass} value={status} onChange={(e) => setStatus(e.target.value)}>
+              <select
+                className={inputClass}
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
                 <option value="all">Any status</option>
                 <option value="not_started">Not started</option>
                 <option value="in_progress">In progress</option>
@@ -162,7 +226,11 @@ function ClientList() {
                 {filtered.map((c) => (
                   <tr key={c.id}>
                     <td className="py-3">
-                      <Link to="/admin/clients/$clientId" params={{ clientId: c.id }} className="text-primary">
+                      <Link
+                        to="/admin/clients/$clientId"
+                        params={{ clientId: c.id }}
+                        className="text-primary"
+                      >
                         {c.company}
                       </Link>
                     </td>
@@ -175,7 +243,9 @@ function ClientList() {
                       <button
                         className="uppercase tracking-widest hover:text-primary"
                         onClick={() =>
-                          updateClient(c.id, { status: c.status === "active" ? "inactive" : "active" })
+                          updateClient(c.id, {
+                            status: c.status === "active" ? "inactive" : "active",
+                          })
                         }
                       >
                         {c.status}
