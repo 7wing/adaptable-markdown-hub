@@ -1,49 +1,8 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import type { Session } from "@supabase/supabase-js";
 
+import { supabase } from "./supabase";
 import type { Role, User } from "./types";
-
-/* ---------------------------------------------------------------------------
- * MOCK AUTHENTICATION
- * ---------------------------------------------------------------------------
- * This is a deliberately thin, front-end-only stand-in so the three portals are
- * walkable without a backend. The session is kept in localStorage.
- *
- * To wire your own provider (Lovable Cloud / Supabase, Auth0, your own API):
- *   - signIn(): call your endpoint, then setUser() with the returned profile.
- *   - signOut(): call your revoke/logout endpoint, then setUser(null).
- *   - Replace the `useEffect` restore with your own session/token check.
- *   - Enforce roles on the server too — `RequireRole` below is UI-level only.
- * ------------------------------------------------------------------------- */
-
-const STORAGE_KEY = "afadhali.session";
-
-const demoUsers: Record<Role, User> = {
-  admin: {
-    id: "us-01",
-    name: "Afadhali Admin",
-    email: "admin@afadhali.co",
-    role: "admin",
-    status: "active",
-  },
-  client: {
-    id: "us-02",
-    name: "Achieng Otieno",
-    email: "ops@kisumusteel.co.ke",
-    role: "client",
-    organisationId: "cl-01",
-    organisationName: "Kisumu Steel Works",
-    status: "active",
-  },
-  partner: {
-    id: "us-03",
-    name: "Samuel Kariuki",
-    email: "projects@biogaske.com",
-    role: "partner",
-    organisationId: "pa-02",
-    organisationName: "Biogas Kenya Engineering",
-    status: "active",
-  },
-};
 
 export const roleHome: Record<Role, string> = {
   admin: "/admin",
@@ -54,38 +13,63 @@ export const roleHome: Record<Role, string> = {
 interface AuthValue {
   user: User | null;
   ready: boolean;
-  signIn: (role: Role, email?: string) => Promise<User>;
+  signIn: (email: string, password: string) => Promise<User>;
   signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthValue | null>(null);
+
+async function loadProfile(session: Session): Promise<User> {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session.user.id)
+    .single();
+
+  if (error || !data) throw error ?? new Error("Profile not found");
+
+  return {
+    id: data.id,
+    name: data.name,
+    email: data.email,
+    role: data.role,
+    organisationId: data.organisation_id ?? undefined,
+    organisationName: data.organisation_name ?? undefined,
+    status: data.status,
+  };
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // TODO(auth): replace with your own session restore (token check / getUser()).
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setUser(JSON.parse(raw) as User);
-    } catch {
-      /* ignore malformed session */
-    }
-    setReady(true);
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      if (session) setUser(await loadProfile(session));
+      setReady(true);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session) {
+        setUser(await loadProfile(session));
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => listener.subscription.unsubscribe();
   }, []);
 
-  const signIn: AuthValue["signIn"] = async (role, email) => {
-    // TODO(auth): POST credentials to your provider and use the returned user.
-    const next = { ...demoUsers[role], ...(email ? { email } : {}) };
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    setUser(next);
-    return next;
+  const signIn: AuthValue["signIn"] = async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    const profile = await loadProfile(data.session);
+    setUser(profile);
+    return profile;
   };
 
   const signOut: AuthValue["signOut"] = async () => {
-    // TODO(auth): revoke the session with your provider here.
-    window.localStorage.removeItem(STORAGE_KEY);
+    await supabase.auth.signOut();
     setUser(null);
   };
 
