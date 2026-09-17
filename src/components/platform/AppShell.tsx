@@ -11,6 +11,7 @@ const navByRole: Record<Role, { to: string; label: string }[]> = {
     { to: "/admin/audits/new", label: "New audit" },
     { to: "/admin/waste", label: "Waste registry" },
     { to: "/admin/matches", label: "Match review" },
+    { to: "/admin/quotes", label: "Quotes" },
     { to: "/admin/partners", label: "Partners" },
     { to: "/admin/users", label: "Users" },
     { to: "/admin/reports", label: "Reports" },

@@ -34,6 +34,7 @@ function QuoteForm() {
     timeline: "",
     conditions: "",
   });
+  const [submitting, setSubmitting] = useState(false);
 
   const selected = matches.find((m) => m.id === form.matchId);
   const entry = waste.find((w) => w.id === selected?.entryAId);
@@ -52,20 +53,32 @@ function QuoteForm() {
           ) : (
             <form
               className="grid gap-4 sm:grid-cols-2"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                if (!entry) return;
-                // TODO(api): POST /quotes
-                addQuote({
-                  partnerId: orgId,
-                  matchId: form.matchId,
-                  clientId: entry.clientId,
-                  price: Number(form.price) || 0,
-                  timeline: form.timeline,
-                  conditions: form.conditions,
-                });
-                toast.success("Quote submitted to Afadhali");
-                navigate({ to: "/partner/requests" });
+                if (!entry) {
+                  toast.error(
+                    "Could not find the waste stream for this request. Try selecting it again.",
+                  );
+                  return;
+                }
+                setSubmitting(true);
+                try {
+                  await addQuote({
+                    partnerId: orgId,
+                    matchId: form.matchId,
+                    clientId: entry.clientId,
+                    price: Number(form.price) || 0,
+                    timeline: form.timeline,
+                    conditions: form.conditions,
+                  });
+                  toast.success("Quote submitted to Afadhali");
+                  navigate({ to: "/partner/requests" });
+                } catch (err) {
+                  console.error(err);
+                  toast.error("Could not submit the quote. Check the console for details.");
+                } finally {
+                  setSubmitting(false);
+                }
               }}
             >
               <Field label="Request">
@@ -112,7 +125,9 @@ function QuoteForm() {
                 />
               </Field>
               <div className="sm:col-span-2">
-                <ActionButton type="submit">Submit quote</ActionButton>
+                <ActionButton type="submit">
+                  {submitting ? "Submitting…" : "Submit quote"}
+                </ActionButton>
               </div>
             </form>
           )}

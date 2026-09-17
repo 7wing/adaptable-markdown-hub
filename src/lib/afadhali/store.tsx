@@ -1,5 +1,8 @@
-import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { useAuth } from "./auth";
+import { supabase } from "./supabase";
 import type {
   Audit,
   Client,
@@ -13,360 +16,6 @@ import type {
   User,
   WasteEntry,
 } from "./types";
-
-/* ---------------------------------------------------------------------------
- * MOCK DATA LAYER
- * ---------------------------------------------------------------------------
- * Everything below is in-memory demo data so every page is navigable without a
- * backend. To plug in your own API:
- *   1. Keep the shapes in `./types.ts` as your API contract.
- *   2. Replace the `seed*` values with data fetched in a route loader or
- *      TanStack Query hook (e.g. `useQuery({ queryKey: ["clients"], ... })`).
- *   3. Replace each action below (addClient, approveMatch, ...) with a call to
- *      your endpoint, then invalidate the relevant query.
- * Nothing else in the UI needs to change.
- * ------------------------------------------------------------------------- */
-
-const seedClients: Client[] = [
-  {
-    id: "cl-01",
-    company: "Kisumu Steel Works",
-    sector: "Manufacturing",
-    location: "Kisumu",
-    contactPerson: "Achieng Otieno",
-    email: "ops@kisumusteel.co.ke",
-    phone: "+254 700 111 222",
-    status: "active",
-    auditStatus: "completed",
-    lastActivity: "2026-08-14",
-  },
-  {
-    id: "cl-02",
-    company: "Highland Coffee Cooperative",
-    sector: "Coffee and tea",
-    location: "Nyeri",
-    contactPerson: "Peter Mwangi",
-    email: "chair@highlandcoffee.coop",
-    phone: "+254 701 333 444",
-    status: "active",
-    auditStatus: "in_progress",
-    lastActivity: "2026-08-18",
-  },
-  {
-    id: "cl-03",
-    company: "Serena Bay Lodge",
-    sector: "Hospitality",
-    location: "Mombasa",
-    contactPerson: "Fatuma Ali",
-    email: "gm@serenabay.co.ke",
-    phone: "+254 702 555 666",
-    status: "active",
-    auditStatus: "completed",
-    lastActivity: "2026-08-02",
-  },
-  {
-    id: "cl-04",
-    company: "Rift Data Centre",
-    sector: "Digital infrastructure",
-    location: "Naivasha",
-    contactPerson: "Brian Kimani",
-    email: "facilities@riftdc.io",
-    phone: "+254 703 777 888",
-    status: "active",
-    auditStatus: "not_started",
-    lastActivity: "2026-07-29",
-  },
-];
-
-const seedAudits: Audit[] = [
-  {
-    id: "au-01",
-    clientId: "cl-01",
-    date: "2026-08-14",
-    status: "complete",
-    energySource: "Grid + 250kVA diesel backup",
-    energyCostMonthly: 1840000,
-    machineNotes: "Induction furnace 14 years old, no variable speed drives on extraction fans.",
-    waterUseNotes: "Closed-loop cooling, 8% make-up loss per shift.",
-    energyScore: 74,
-    wasteScore: 88,
-    overallScore: 81,
-    summary:
-      "Mill scale and steel offcuts are fully recoverable through a local foundry. Largest single saving sits in furnace scheduling and off-peak tariff use.",
-  },
-  {
-    id: "au-02",
-    clientId: "cl-02",
-    date: "2026-08-18",
-    status: "draft",
-    energySource: "Grid, single phase",
-    energyCostMonthly: 210000,
-    machineNotes: "Pulper motor oversized for current throughput.",
-    waterUseNotes: "Wet processing discharges to settling ponds.",
-    energyScore: 58,
-    wasteScore: 64,
-    overallScore: 61,
-    summary: "Draft audit — second visit scheduled to weigh pulp volumes over a full picking week.",
-  },
-  {
-    id: "au-03",
-    clientId: "cl-03",
-    date: "2026-08-02",
-    status: "complete",
-    energySource: "Grid + 40kW rooftop solar",
-    energyCostMonthly: 940000,
-    machineNotes: "Laundry boiler on furnace oil, no heat recovery.",
-    waterUseNotes: "Greywater currently untreated.",
-    energyScore: 69,
-    wasteScore: 71,
-    overallScore: 70,
-    summary:
-      "Kitchen organics are the strongest match candidate. Boiler switch to biogas is viable at current organic volumes.",
-  },
-];
-
-const seedWaste: WasteEntry[] = [
-  {
-    id: "we-01",
-    auditId: "au-01",
-    clientId: "cl-01",
-    material: "Steel offcuts",
-    volume: "142.5 t / month",
-    frequency: "Continuous",
-    handling: "Sold to informal scrap dealers",
-    status: "matched",
-    notes: "Grade separated at source.",
-  },
-  {
-    id: "we-02",
-    auditId: "au-01",
-    clientId: "cl-01",
-    material: "Mill scale",
-    volume: "18 t / month",
-    frequency: "Weekly",
-    handling: "Landfilled on site",
-    status: "unmatched",
-    notes: "High iron oxide content, cement industry interest likely.",
-  },
-  {
-    id: "we-03",
-    auditId: "au-02",
-    clientId: "cl-02",
-    material: "Coffee pulp",
-    volume: "60 t / season",
-    frequency: "Seasonal",
-    handling: "Heaped behind wet mill",
-    status: "unmatched",
-    notes: "Odour complaints from neighbouring farm.",
-  },
-  {
-    id: "we-04",
-    auditId: "au-03",
-    clientId: "cl-03",
-    material: "Kitchen organics",
-    volume: "3.2 t / month",
-    frequency: "Daily",
-    handling: "Municipal collection",
-    status: "matched",
-    notes: "Separated from packaging waste since June.",
-  },
-  {
-    id: "we-05",
-    auditId: "au-03",
-    clientId: "cl-03",
-    material: "Single-use plastic amenities",
-    volume: "0.4 t / month",
-    frequency: "Weekly",
-    handling: "Municipal collection",
-    status: "resolved",
-    notes: "Replaced with refill dispensers in 62 of 90 rooms.",
-  },
-];
-
-const seedMatches: Match[] = [
-  {
-    id: "ma-01",
-    entryAId: "we-01",
-    entryBId: "we-02",
-    status: "approved",
-    reasoning: "Ferrous streams consolidated for single collection run; volume compatible.",
-    distanceKm: 4,
-  },
-  {
-    id: "ma-02",
-    entryAId: "we-03",
-    partnerId: "pa-02",
-    status: "proposed",
-    reasoning: "Coffee pulp volume matches digester feedstock requirement for 45kW unit.",
-    distanceKm: 31,
-  },
-  {
-    id: "ma-03",
-    entryAId: "we-04",
-    partnerId: "pa-02",
-    status: "accepted_by_client",
-    reasoning: "Daily organics feed hotel-side biogas for kitchen use.",
-    distanceKm: 12,
-  },
-];
-
-const seedPartners: Partner[] = [
-  {
-    id: "pa-01",
-    company: "Jua Solar Systems",
-    offers: ["Solar PV", "Battery storage"],
-    serviceArea: "Nationwide",
-    contactPerson: "Njeri Waweru",
-    email: "sales@juasolar.co.ke",
-    status: "active",
-  },
-  {
-    id: "pa-02",
-    company: "Biogas Kenya Engineering",
-    offers: ["Biodigesters", "Waste-to-energy"],
-    serviceArea: "Central, Rift Valley",
-    contactPerson: "Samuel Kariuki",
-    email: "projects@biogaske.com",
-    status: "active",
-  },
-  {
-    id: "pa-03",
-    company: "PakaPack Alternatives",
-    offers: ["Compostable packaging"],
-    serviceArea: "Nairobi, Coast",
-    contactPerson: "Zawadi Mwende",
-    email: "hello@pakapack.africa",
-    status: "active",
-  },
-  {
-    id: "pa-04",
-    company: "Coast EV Logistics",
-    offers: ["Electric fleet", "Last-mile haulage"],
-    serviceArea: "Coast",
-    contactPerson: "Ali Juma",
-    email: "fleet@coastev.co.ke",
-    status: "inactive",
-  },
-];
-
-const seedRecommendations: Recommendation[] = [
-  {
-    id: "re-01",
-    clientId: "cl-01",
-    title: "Variable speed drives on extraction fans",
-    description: "Retrofit VSDs on the four extraction fans running at fixed speed across shifts.",
-    benefit: "Est. 11% cut in fan energy draw, payback under 14 months.",
-    partnerId: "pa-01",
-    status: "suggested",
-  },
-  {
-    id: "re-02",
-    clientId: "cl-03",
-    title: "Biogas boiler conversion",
-    description: "Replace furnace-oil laundry boiler with a biogas unit fed by kitchen organics.",
-    benefit: "Removes 9,600 L of furnace oil per year.",
-    partnerId: "pa-02",
-    status: "quote_requested",
-  },
-  {
-    id: "re-03",
-    clientId: "cl-02",
-    title: "Solar drying beds",
-    description: "Shade-net drying beds sized for a 60 t seasonal pulp volume.",
-    benefit: "Turns pulp liability into saleable soil conditioner.",
-    partnerId: "pa-02",
-    status: "suggested",
-  },
-];
-
-const seedQuotes: Quote[] = [
-  {
-    id: "qu-01",
-    partnerId: "pa-02",
-    recommendationId: "re-02",
-    clientId: "cl-03",
-    price: 3850000,
-    timeline: "8 weeks from deposit",
-    conditions: "Excludes civil works for the digester slab.",
-    status: "submitted",
-  },
-];
-
-const seedJobs: Job[] = [
-  {
-    id: "jo-01",
-    partnerId: "pa-02",
-    clientId: "cl-03",
-    description: "Biogas digester install — Serena Bay Lodge",
-    status: "in_progress",
-    notes: "Slab cured, dome delivery expected Friday.",
-  },
-  {
-    id: "jo-02",
-    partnerId: "pa-01",
-    clientId: "cl-01",
-    description: "VSD retrofit survey — Kisumu Steel Works",
-    status: "scheduled",
-    notes: "Site access confirmed for the 27th.",
-  },
-];
-
-const seedReports: Report[] = [
-  {
-    id: "rp-01",
-    clientId: "cl-01",
-    auditIds: ["au-01"],
-    generatedAt: "2026-08-15",
-    sent: true,
-  },
-  {
-    id: "rp-02",
-    clientId: "cl-03",
-    auditIds: ["au-03"],
-    generatedAt: "2026-08-03",
-    sent: false,
-  },
-];
-
-const seedUsers: User[] = [
-  {
-    id: "us-01",
-    name: "Afadhali Admin",
-    email: "admin@afadhali.co",
-    role: "admin",
-    status: "active",
-  },
-  {
-    id: "us-02",
-    name: "Achieng Otieno",
-    email: "ops@kisumusteel.co.ke",
-    role: "client",
-    organisationId: "cl-01",
-    organisationName: "Kisumu Steel Works",
-    status: "active",
-  },
-  {
-    id: "us-03",
-    name: "Samuel Kariuki",
-    email: "projects@biogaske.com",
-    role: "partner",
-    organisationId: "pa-02",
-    organisationName: "Biogas Kenya Engineering",
-    status: "active",
-  },
-];
-
-const seedLeads: Lead[] = [
-  {
-    id: "le-01",
-    name: "Grace Wanjiku",
-    company: "Thika Textiles",
-    sector: "Textiles",
-    message: "We produce cotton offcuts and dye water and have no idea where either goes.",
-    createdAt: "2026-08-19",
-    converted: false,
-  },
-];
 
 interface Data {
   clients: Client[];
@@ -383,152 +32,449 @@ interface Data {
 }
 
 interface StoreValue extends Data {
-  addLead: (lead: Omit<Lead, "id" | "createdAt" | "converted">) => void;
-  addClient: (client: Omit<Client, "id" | "lastActivity">) => void;
-  updateClient: (id: string, patch: Partial<Client>) => void;
-  addAudit: (audit: Omit<Audit, "id">, entries: Omit<WasteEntry, "id" | "auditId">[]) => void;
-  setWasteStatus: (id: string, status: WasteEntry["status"]) => void;
-  addWasteNote: (id: string, note: string) => void;
-  setMatchStatus: (id: string, status: Match["status"]) => void;
-  addMatch: (match: Omit<Match, "id">) => void;
-  addPartner: (partner: Omit<Partner, "id">) => void;
-  updatePartner: (id: string, patch: Partial<Partner>) => void;
-  addUser: (user: Omit<User, "id">) => void;
-  updateUser: (id: string, patch: Partial<User>) => void;
-  setRecommendationStatus: (id: string, status: Recommendation["status"]) => void;
-  addQuote: (quote: Omit<Quote, "id" | "status">) => void;
-  addReport: (clientId: string, auditIds: string[]) => void;
-  markReportSent: (id: string) => void;
-  setJobStatus: (id: string, status: Job["status"], notes?: string) => void;
+  refetch: () => Promise<void>;
+  addLead: (lead: Omit<Lead, "id" | "createdAt" | "converted">) => Promise<void>;
+  addClient: (client: Omit<Client, "id" | "lastActivity">) => Promise<void>;
+  updateClient: (id: string, patch: Partial<Client>) => Promise<void>;
+  addAudit: (
+    audit: Omit<Audit, "id">,
+    entries: Omit<WasteEntry, "id" | "auditId">[],
+  ) => Promise<void>;
+  setWasteStatus: (id: string, status: WasteEntry["status"]) => Promise<void>;
+  addWasteNote: (id: string, note: string) => Promise<void>;
+  setMatchStatus: (id: string, status: Match["status"]) => Promise<void>;
+  addMatch: (match: Omit<Match, "id">) => Promise<void>;
+  updateMatch: (id: string, patch: Partial<Match>) => Promise<void>;
+  deleteMatch: (id: string) => Promise<void>;
+  addPartner: (partner: Omit<Partner, "id">) => Promise<void>;
+  updatePartner: (id: string, patch: Partial<Partner>) => Promise<void>;
+  addUser: (user: Omit<User, "id">) => Promise<void>;
+  updateUser: (id: string, patch: Partial<User>) => Promise<void>;
+  setRecommendationStatus: (id: string, status: Recommendation["status"]) => Promise<void>;
+  addRecommendation: (rec: Omit<Recommendation, "id" | "status">) => Promise<void>;
+  addQuote: (quote: Omit<Quote, "id" | "status">) => Promise<void>;
+  setQuoteStatus: (id: string, status: "declined") => Promise<void>;
+  acceptQuoteAndCreateJob: (id: string, description: string) => Promise<void>;
+  addReport: (clientId: string, auditIds: string[]) => Promise<void>;
+  markReportSent: (id: string) => Promise<void>;
+  setJobStatus: (id: string, status: Job["status"], notes?: string) => Promise<void>;
 }
 
 const StoreContext = createContext<StoreValue | null>(null);
-
-let counter = 100;
-const nextId = (prefix: string) => `${prefix}-${++counter}`;
 const today = () => new Date().toISOString().slice(0, 10);
 
+// --- row <-> app-shape mappers (snake_case DB columns -> camelCase types) ---
+const mapClient = (r: any): Client => ({
+  id: r.id,
+  company: r.company,
+  sector: r.sector,
+  location: r.location,
+  contactPerson: r.contact_person,
+  email: r.email,
+  phone: r.phone,
+  status: r.status,
+  auditStatus: r.audit_status,
+  lastActivity: r.last_activity,
+});
+const mapAudit = (r: any): Audit => ({
+  id: r.id,
+  clientId: r.client_id,
+  date: r.date,
+  status: r.status,
+  energySource: r.energy_source,
+  energyCostMonthly: r.energy_cost_monthly,
+  machineNotes: r.machine_notes,
+  waterUseNotes: r.water_use_notes,
+  energyScore: r.energy_score,
+  wasteScore: r.waste_score,
+  overallScore: r.overall_score,
+  summary: r.summary,
+});
+const mapWaste = (r: any): WasteEntry => ({
+  id: r.id,
+  auditId: r.audit_id,
+  clientId: r.client_id,
+  material: r.material,
+  volume: r.volume,
+  frequency: r.frequency,
+  handling: r.handling,
+  status: r.status,
+  notes: r.notes ?? "",
+});
+const mapMatch = (r: any): Match => ({
+  id: r.id,
+  entryAId: r.entry_a_id,
+  entryBId: r.entry_b_id ?? undefined,
+  partnerId: r.partner_id ?? undefined,
+  status: r.status,
+  reasoning: r.reasoning,
+  distanceKm: r.distance_km,
+});
+const mapPartner = (r: any): Partner => ({
+  id: r.id,
+  company: r.company,
+  offers: r.offers,
+  serviceArea: r.service_area,
+  contactPerson: r.contact_person,
+  email: r.email,
+  status: r.status,
+});
+const mapRecommendation = (r: any): Recommendation => ({
+  id: r.id,
+  clientId: r.client_id,
+  title: r.title,
+  description: r.description,
+  benefit: r.benefit,
+  partnerId: r.partner_id ?? undefined,
+  status: r.status,
+});
+const mapQuote = (r: any): Quote => ({
+  id: r.id,
+  partnerId: r.partner_id,
+  recommendationId: r.recommendation_id ?? undefined,
+  matchId: r.match_id ?? undefined,
+  clientId: r.client_id,
+  price: r.price,
+  timeline: r.timeline,
+  conditions: r.conditions,
+  status: r.status,
+});
+const mapJob = (r: any): Job => ({
+  id: r.id,
+  partnerId: r.partner_id,
+  clientId: r.client_id,
+  description: r.description,
+  status: r.status,
+  notes: r.notes ?? "",
+});
+const mapReport = (r: any): Report => ({
+  id: r.id,
+  clientId: r.client_id,
+  auditIds: r.audit_ids,
+  generatedAt: r.generated_at,
+  sent: r.sent,
+});
+const mapLead = (r: any): Lead => ({
+  id: r.id,
+  name: r.name,
+  company: r.company,
+  sector: r.sector,
+  message: r.message,
+  createdAt: r.created_at,
+  converted: r.converted,
+});
+const mapUser = (r: any): User => ({
+  id: r.id,
+  name: r.name,
+  email: r.email,
+  role: r.role,
+  organisationId: r.organisation_id ?? undefined,
+  organisationName: r.organisation_name ?? undefined,
+  status: r.status,
+});
+
 export function AfadhaliStoreProvider({ children }: { children: ReactNode }) {
+  const { user } = useAuth();
   const [data, setData] = useState<Data>({
-    clients: seedClients,
-    audits: seedAudits,
-    waste: seedWaste,
-    matches: seedMatches,
-    partners: seedPartners,
-    recommendations: seedRecommendations,
-    quotes: seedQuotes,
-    jobs: seedJobs,
-    reports: seedReports,
-    users: seedUsers,
-    leads: seedLeads,
+    clients: [],
+    audits: [],
+    waste: [],
+    matches: [],
+    partners: [],
+    recommendations: [],
+    quotes: [],
+    jobs: [],
+    reports: [],
+    users: [],
+    leads: [],
   });
 
-  const value = useMemo<StoreValue>(
-    () => ({
-      ...data,
-      // TODO(api): POST /leads
-      addLead: (lead) =>
-        setData((d) => ({
-          ...d,
-          leads: [{ ...lead, id: nextId("le"), createdAt: today(), converted: false }, ...d.leads],
-        })),
-      // TODO(api): POST /clients
-      addClient: (client) =>
-        setData((d) => ({
-          ...d,
-          clients: [{ ...client, id: nextId("cl"), lastActivity: today() }, ...d.clients],
-        })),
-      // TODO(api): PATCH /clients/:id
-      updateClient: (id, patch) =>
-        setData((d) => ({
-          ...d,
-          clients: d.clients.map((c) =>
-            c.id === id ? { ...c, ...patch, lastActivity: today() } : c,
-          ),
-        })),
-      // TODO(api): POST /audits (with nested waste entries)
-      addAudit: (audit, entries) =>
-        setData((d) => {
-          const auditId = nextId("au");
-          return {
-            ...d,
-            audits: [{ ...audit, id: auditId }, ...d.audits],
-            waste: [...entries.map((e) => ({ ...e, id: nextId("we"), auditId })), ...d.waste],
-            clients: d.clients.map((c) =>
-              c.id === audit.clientId
-                ? {
-                    ...c,
-                    auditStatus: audit.status === "complete" ? "completed" : "in_progress",
-                    lastActivity: today(),
-                  }
-                : c,
-            ),
-          };
-        }),
-      setWasteStatus: (id, status) =>
-        setData((d) => ({
-          ...d,
-          waste: d.waste.map((w) => (w.id === id ? { ...w, status } : w)),
-        })),
-      addWasteNote: (id, note) =>
-        setData((d) => ({
-          ...d,
-          waste: d.waste.map((w) =>
-            w.id === id ? { ...w, notes: w.notes ? `${w.notes} — ${note}` : note } : w,
-          ),
-        })),
-      setMatchStatus: (id, status) =>
-        setData((d) => ({
-          ...d,
-          matches: d.matches.map((m) => (m.id === id ? { ...m, status } : m)),
-        })),
-      addMatch: (match) =>
-        setData((d) => ({ ...d, matches: [{ ...match, id: nextId("ma") }, ...d.matches] })),
-      addPartner: (partner) =>
-        setData((d) => ({ ...d, partners: [{ ...partner, id: nextId("pa") }, ...d.partners] })),
-      updatePartner: (id, patch) =>
-        setData((d) => ({
-          ...d,
-          partners: d.partners.map((p) => (p.id === id ? { ...p, ...patch } : p)),
-        })),
-      addUser: (user) =>
-        setData((d) => ({ ...d, users: [{ ...user, id: nextId("us") }, ...d.users] })),
-      updateUser: (id, patch) =>
-        setData((d) => ({
-          ...d,
-          users: d.users.map((u) => (u.id === id ? { ...u, ...patch } : u)),
-        })),
-      setRecommendationStatus: (id, status) =>
-        setData((d) => ({
-          ...d,
-          recommendations: d.recommendations.map((r) => (r.id === id ? { ...r, status } : r)),
-        })),
-      addQuote: (quote) =>
-        setData((d) => ({
-          ...d,
-          quotes: [{ ...quote, id: nextId("qu"), status: "submitted" }, ...d.quotes],
-        })),
-      addReport: (clientId, auditIds) =>
-        setData((d) => ({
-          ...d,
-          reports: [
-            { id: nextId("rp"), clientId, auditIds, generatedAt: today(), sent: false },
-            ...d.reports,
-          ],
-        })),
-      markReportSent: (id) =>
-        setData((d) => ({
-          ...d,
-          reports: d.reports.map((r) => (r.id === id ? { ...r, sent: true } : r)),
-        })),
-      setJobStatus: (id, status, notes) =>
-        setData((d) => ({
-          ...d,
-          jobs: d.jobs.map((j) => (j.id === id ? { ...j, status, notes: notes ?? j.notes } : j)),
-        })),
-    }),
-    [data],
-  );
+  const refetch = async () => {
+    const [
+      clients,
+      audits,
+      waste,
+      matches,
+      partners,
+      recommendations,
+      quotes,
+      jobs,
+      reports,
+      users,
+      leads,
+    ] = await Promise.all([
+      supabase.from("clients").select("*"),
+      supabase.from("audits").select("*"),
+      supabase.from("waste_entries").select("*"),
+      supabase.from("matches").select("*"),
+      supabase.from("partners").select("*"),
+      supabase.from("recommendations").select("*"),
+      supabase.from("quotes").select("*"),
+      supabase.from("jobs").select("*"),
+      supabase.from("reports").select("*"),
+      supabase.from("profiles").select("*"),
+      supabase.from("leads").select("*"),
+    ]);
+
+    setData({
+      clients: (clients.data ?? []).map(mapClient),
+      audits: (audits.data ?? []).map(mapAudit),
+      waste: (waste.data ?? []).map(mapWaste),
+      matches: (matches.data ?? []).map(mapMatch),
+      partners: (partners.data ?? []).map(mapPartner),
+      recommendations: (recommendations.data ?? []).map(mapRecommendation),
+      quotes: (quotes.data ?? []).map(mapQuote),
+      jobs: (jobs.data ?? []).map(mapJob),
+      reports: (reports.data ?? []).map(mapReport),
+      users: (users.data ?? []).map(mapUser),
+      leads: (leads.data ?? []).map(mapLead),
+    });
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [user?.id]);
+
+  const value: StoreValue = {
+    ...data,
+    refetch,
+
+    addLead: async (lead) => {
+      await supabase.from("leads").insert({
+        name: lead.name,
+        company: lead.company,
+        sector: lead.sector,
+        message: lead.message,
+      });
+      await refetch();
+    },
+
+    addClient: async (client) => {
+      await supabase.from("clients").insert({
+        company: client.company,
+        sector: client.sector,
+        location: client.location,
+        contact_person: client.contactPerson,
+        email: client.email,
+        phone: client.phone,
+        status: client.status,
+        audit_status: client.auditStatus,
+      });
+      await refetch();
+    },
+
+    updateClient: async (id, patch) => {
+      const row: Record<string, unknown> = { last_activity: today() };
+      if (patch.company !== undefined) row["company"] = patch.company;
+      if (patch.sector !== undefined) row["sector"] = patch.sector;
+      if (patch.location !== undefined) row["location"] = patch.location;
+      if (patch.contactPerson !== undefined) row["contact_person"] = patch.contactPerson;
+      if (patch.email !== undefined) row["email"] = patch.email;
+      if (patch.phone !== undefined) row["phone"] = patch.phone;
+      if (patch.status !== undefined) row["status"] = patch.status;
+      if (patch.auditStatus !== undefined) row["audit_status"] = patch.auditStatus;
+      await supabase.from("clients").update(row).eq("id", id);
+      await refetch();
+    },
+
+    addAudit: async (audit, entries) => {
+      const { data: inserted, error } = await supabase
+        .from("audits")
+        .insert({
+          client_id: audit.clientId,
+          date: audit.date,
+          status: audit.status,
+          energy_source: audit.energySource,
+          energy_cost_monthly: audit.energyCostMonthly,
+          machine_notes: audit.machineNotes,
+          water_use_notes: audit.waterUseNotes,
+          energy_score: audit.energyScore,
+          waste_score: audit.wasteScore,
+          overall_score: audit.overallScore,
+          summary: audit.summary,
+        })
+        .select()
+        .single();
+      if (error || !inserted) throw error;
+
+      if (entries.length > 0) {
+        await supabase.from("waste_entries").insert(
+          entries.map((e) => ({
+            audit_id: inserted.id,
+            client_id: e.clientId,
+            material: e.material,
+            volume: e.volume,
+            frequency: e.frequency,
+            handling: e.handling,
+            status: e.status,
+            notes: e.notes,
+          })),
+        );
+      }
+      await supabase
+        .from("clients")
+        .update({
+          audit_status: audit.status === "complete" ? "completed" : "in_progress",
+          last_activity: today(),
+        })
+        .eq("id", audit.clientId);
+      await refetch();
+    },
+
+    setWasteStatus: async (id, status) => {
+      await supabase.from("waste_entries").update({ status }).eq("id", id);
+      await refetch();
+    },
+
+    addWasteNote: async (id, note) => {
+      const current = data.waste.find((w) => w.id === id);
+      const notes = current?.notes ? `${current.notes} — ${note}` : note;
+      await supabase.from("waste_entries").update({ notes }).eq("id", id);
+      await refetch();
+    },
+
+    setMatchStatus: async (id, status) => {
+      await supabase.from("matches").update({ status }).eq("id", id);
+      await refetch();
+    },
+
+    addMatch: async (match) => {
+      await supabase.from("matches").insert({
+        entry_a_id: match.entryAId,
+        entry_b_id: match.entryBId ?? null,
+        partner_id: match.partnerId ?? null,
+        status: match.status,
+        reasoning: match.reasoning,
+        distance_km: match.distanceKm,
+      });
+      await refetch();
+    },
+
+    updateMatch: async (id, patch) => {
+      const row: Record<string, unknown> = {};
+      if (patch.reasoning !== undefined) row["reasoning"] = patch.reasoning;
+      if (patch.distanceKm !== undefined) row["distance_km"] = patch.distanceKm;
+      if (patch.status !== undefined) row["status"] = patch.status;
+      if (patch.partnerId !== undefined) row["partner_id"] = patch.partnerId;
+      await supabase.from("matches").update(row).eq("id", id);
+      await refetch();
+    },
+
+    deleteMatch: async (id) => {
+      await supabase.from("matches").delete().eq("id", id);
+      await refetch();
+    },
+
+    addPartner: async (partner) => {
+      await supabase.from("partners").insert({
+        company: partner.company,
+        offers: partner.offers,
+        service_area: partner.serviceArea,
+        contact_person: partner.contactPerson,
+        email: partner.email,
+        status: partner.status,
+      });
+      await refetch();
+    },
+
+    updatePartner: async (id, patch) => {
+      const row: Record<string, unknown> = {};
+      if (patch.company !== undefined) row["company"] = patch.company;
+      if (patch.offers !== undefined) row["offers"] = patch.offers;
+      if (patch.serviceArea !== undefined) row["service_area"] = patch.serviceArea;
+      if (patch.contactPerson !== undefined) row["contact_person"] = patch.contactPerson;
+      if (patch.email !== undefined) row["email"] = patch.email;
+      if (patch.status !== undefined) row["status"] = patch.status;
+      await supabase.from("partners").update(row).eq("id", id);
+      await refetch();
+    },
+
+    addUser: async () => {
+      // Real invites happen via Supabase Auth admin API (server-side / edge function),
+      // not a direct table insert. See Phase 5 (user invites) for the edge function that does this.
+      console.warn("addUser: wire this to the invite-user edge function from Phase 5");
+    },
+
+    updateUser: async (id, patch) => {
+      const row: Record<string, unknown> = {};
+      if (patch.status !== undefined) row["status"] = patch.status;
+      if (patch.name !== undefined) row["name"] = patch.name;
+      await supabase.from("profiles").update(row).eq("id", id);
+      await refetch();
+    },
+
+    setRecommendationStatus: async (id, status) => {
+      await supabase.from("recommendations").update({ status }).eq("id", id);
+      await refetch();
+    },
+
+    addRecommendation: async (rec) => {
+      await supabase.from("recommendations").insert({
+        client_id: rec.clientId,
+        title: rec.title,
+        description: rec.description,
+        benefit: rec.benefit,
+        partner_id: rec.partnerId ?? null,
+        status: "suggested",
+      });
+      await refetch();
+    },
+
+    addQuote: async (quote) => {
+      await supabase.from("quotes").insert({
+        partner_id: quote.partnerId,
+        recommendation_id: quote.recommendationId ?? null,
+        match_id: quote.matchId ?? null,
+        client_id: quote.clientId,
+        price: quote.price,
+        timeline: quote.timeline,
+        conditions: quote.conditions,
+        status: "submitted",
+      });
+      await refetch();
+    },
+
+    setQuoteStatus: async (id, status) => {
+      await supabase.from("quotes").update({ status }).eq("id", id);
+      await refetch();
+    },
+
+    acceptQuoteAndCreateJob: async (id, description) => {
+      const quote = data.quotes.find((q) => q.id === id);
+      if (!quote) return;
+      await supabase.from("quotes").update({ status: "accepted" }).eq("id", id);
+      await supabase.from("jobs").insert({
+        partner_id: quote.partnerId,
+        client_id: quote.clientId,
+        description,
+        status: "scheduled",
+        notes: "",
+      });
+      await refetch();
+    },
+
+    addReport: async (clientId, auditIds) => {
+      await supabase.from("reports").insert({
+        client_id: clientId,
+        audit_ids: auditIds,
+        generated_at: today(),
+        sent: false,
+      });
+      await refetch();
+    },
+
+    markReportSent: async (id) => {
+      await supabase.from("reports").update({ sent: true }).eq("id", id);
+      await refetch();
+    },
+
+    setJobStatus: async (id, status, notes) => {
+      const row: Record<string, unknown> = { status };
+      if (notes !== undefined) row["notes"] = notes;
+      await supabase.from("jobs").update(row).eq("id", id);
+      await refetch();
+    },
+  };
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

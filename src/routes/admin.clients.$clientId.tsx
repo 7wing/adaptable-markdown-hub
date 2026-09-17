@@ -19,8 +19,17 @@ export const Route = createFileRoute("/admin/clients/$clientId")({
 
 function ClientProfile() {
   const { clientId } = Route.useParams();
-  const { clients, audits, waste, matches, recommendations, reports, updateClient, addReport } =
-    useAfadhali();
+  const {
+    clients,
+    audits,
+    waste,
+    matches,
+    recommendations,
+    reports,
+    updateClient,
+    addReport,
+    addRecommendation,
+  } = useAfadhali();
   const client = clients.find((c) => c.id === clientId);
   const [editing, setEditing] = useState(false);
 
@@ -194,6 +203,49 @@ function ClientProfile() {
         </Panel>
 
         <Panel title="Matches and swap recommendations">
+          <Panel title="Add recommendation">
+            <form
+              className="grid gap-4 sm:grid-cols-2"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const data = new FormData(form);
+                await addRecommendation({
+                  clientId: client.id,
+                  title: String(data.get("title") ?? ""),
+                  description: String(data.get("description") ?? ""),
+                  benefit: String(data.get("benefit") ?? ""),
+                });
+                form.reset();
+                toast.success("Recommendation added");
+              }}
+            >
+              <Field label="Title">
+                <input
+                  name="title"
+                  required
+                  className={inputClass}
+                  placeholder="Solar drying beds"
+                />
+              </Field>
+              <Field label="Benefit">
+                <input
+                  name="benefit"
+                  required
+                  className={inputClass}
+                  placeholder="Removes 9,600 L furnace oil/year"
+                />
+              </Field>
+              <div className="sm:col-span-2">
+                <Field label="Description">
+                  <textarea name="description" rows={3} required className={inputClass} />
+                </Field>
+              </div>
+              <div className="sm:col-span-2">
+                <ActionButton type="submit">Add recommendation</ActionButton>
+              </div>
+            </form>
+          </Panel>
           <div className="grid gap-8 lg:grid-cols-2">
             <div>
               <div className="label-mono mb-3 opacity-40">Matches</div>

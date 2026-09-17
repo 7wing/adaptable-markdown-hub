@@ -20,6 +20,7 @@ export const Route = createFileRoute("/admin/reports")({
 function Reports() {
   const { reports, clients, audits, waste, matches, addReport, markReportSent } = useAfadhali();
   const [clientId, setClientId] = useState(clients[0]?.id ?? "");
+  const [previewing, setPreviewing] = useState<string | null>(null);
 
   const clientName = (id: string) => clients.find((c) => c.id === id)?.company ?? "Unknown";
   const diverted = waste.filter((w) => w.status !== "unmatched").length;
@@ -66,12 +67,11 @@ function Reports() {
             className="flex flex-wrap items-end gap-4"
             onSubmit={(e) => {
               e.preventDefault();
-              // TODO(api): POST /reports — render the PDF server-side
               addReport(
                 clientId,
                 audits.filter((a) => a.clientId === clientId).map((a) => a.id),
               );
-              toast.success("Report generated");
+              toast.success("Report generated — preview it before sending");
             }}
           >
             <div className="min-w-[240px]">
@@ -97,41 +97,71 @@ function Reports() {
           {reports.length === 0 ? (
             <p className="text-sm opacity-50">No reports yet.</p>
           ) : (
-            <table className="w-full text-left font-mono text-[11px]">
-              <thead>
-                <tr className="border-b border-background/10 uppercase tracking-tighter opacity-40">
-                  <th className="py-3">Client</th>
-                  <th className="py-3">Generated</th>
-                  <th className="py-3">Audits</th>
-                  <th className="py-3 text-right">Delivery</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-background/5">
-                {reports.map((r) => (
-                  <tr key={r.id}>
-                    <td className="py-3">{clientName(r.clientId)}</td>
-                    <td className="py-3">{r.generatedAt}</td>
-                    <td className="py-3">{r.auditIds.length}</td>
-                    <td className="py-3 text-right">
-                      {r.sent ? (
-                        <Tag tone="ok">sent</Tag>
-                      ) : (
-                        <button
-                          className="uppercase tracking-widest text-primary"
-                          onClick={() => {
-                            // TODO(email): send via your transactional email provider
-                            markReportSent(r.id);
-                            toast.success("Report emailed to the client");
-                          }}
-                        >
-                          Send to client
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <ul className="divide-y divide-background/10">
+              {reports.map((r) => {
+                const reportAudits = audits.filter((a) => r.auditIds.includes(a.id));
+                return (
+                  <li key={r.id} className="py-4">
+                    <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-[11px]">
+                      <span>
+                        {clientName(r.clientId)} · {r.generatedAt} · {r.auditIds.length} audit(s)
+                      </span>
+                      <div className="flex items-center gap-2">
+                        {r.sent ? (
+                          <Tag tone="ok">sent</Tag>
+                        ) : (
+                          <>
+                            <Tag tone="warn">not sent</Tag>
+                            <ActionButton
+                              variant="ghost"
+                              onClick={() => setPreviewing(previewing === r.id ? null : r.id)}
+                            >
+                              {previewing === r.id ? "Close preview" : "Preview"}
+                            </ActionButton>
+                          </>
+                        )}
+                      </div>
+                    </div>
+
+                    {previewing === r.id ? (
+                      <div className="mt-4 border border-background/10 bg-background/5 p-6">
+                        <div className="mb-4 font-mono text-[10px] uppercase tracking-widest text-ochre">
+                          Report preview — {clientName(r.clientId)}
+                        </div>
+                        {reportAudits.length === 0 ? (
+                          <p className="text-sm opacity-50">No audits attached to this report.</p>
+                        ) : (
+                          <div className="space-y-4">
+                            {reportAudits.map((a) => (
+                              <div key={a.id} className="border-l-2 border-ochre pl-4">
+                                <div className="font-mono text-[10px] uppercase tracking-widest opacity-40">
+                                  {a.date} · Overall {a.overallScore}/100
+                                </div>
+                                <p className="mt-1 text-sm opacity-80">{a.summary}</p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div className="mt-6 flex gap-3">
+                          <ActionButton
+                            onClick={() => {
+                              markReportSent(r.id);
+                              setPreviewing(null);
+                              toast.success("Report marked as sent");
+                            }}
+                          >
+                            Confirm &amp; send
+                          </ActionButton>
+                          <ActionButton variant="ghost" onClick={() => setPreviewing(null)}>
+                            Cancel
+                          </ActionButton>
+                        </div>
+                      </div>
+                    ) : null}
+                  </li>
+                );
+              })}
+            </ul>
           )}
         </Panel>
       </div>

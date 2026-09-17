@@ -18,8 +18,10 @@ export const Route = createFileRoute("/admin/matches")({
 });
 
 function Matches() {
-  const { matches, waste, clients, partners, setMatchStatus, addMatch } = useAfadhali();
+  const { matches, waste, clients, partners, setMatchStatus, addMatch, updateMatch, deleteMatch } =
+    useAfadhali();
   const [creating, setCreating] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [draft, setDraft] = useState({
     entryAId: "",
     entryBId: "",
@@ -190,8 +192,65 @@ function Matches() {
                         </ActionButton>
                       </>
                     ) : null}
+                    <ActionButton
+                      variant="ghost"
+                      onClick={() => setEditingId(editingId === m.id ? null : m.id)}
+                    >
+                      Edit
+                    </ActionButton>
+                    <ActionButton
+                      variant="ghost"
+                      onClick={async () => {
+                        if (confirm("Delete this match? This cannot be undone.")) {
+                          await deleteMatch(m.id);
+                          toast.success("Match deleted");
+                        }
+                      }}
+                    >
+                      Delete
+                    </ActionButton>
                   </div>
                 </div>
+                {editingId === m.id ? (
+                  <form
+                    className="mt-3 grid gap-3 border border-background/10 p-4 sm:grid-cols-2"
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+                      const data = new FormData(e.currentTarget);
+                      await updateMatch(m.id, {
+                        reasoning: String(data.get("reasoning") ?? m.reasoning),
+                        distanceKm: Number(data.get("distanceKm") ?? m.distanceKm),
+                      });
+                      setEditingId(null);
+                      toast.success("Match updated");
+                    }}
+                  >
+                    <div className="sm:col-span-2">
+                      <Field label="Reasoning">
+                        <textarea
+                          name="reasoning"
+                          rows={2}
+                          defaultValue={m.reasoning}
+                          className={inputClass}
+                        />
+                      </Field>
+                    </div>
+                    <Field label="Distance (km)">
+                      <input
+                        name="distanceKm"
+                        type="number"
+                        defaultValue={m.distanceKm}
+                        className={inputClass}
+                      />
+                    </Field>
+                    <div className="flex items-end gap-3">
+                      <ActionButton type="submit">Save</ActionButton>
+                      <ActionButton variant="ghost" onClick={() => setEditingId(null)}>
+                        Cancel
+                      </ActionButton>
+                    </div>
+                  </form>
+                ) : null}
               </li>
             ))}
           </ul>
