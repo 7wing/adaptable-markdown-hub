@@ -128,7 +128,7 @@ export default function Contact() {
                   className={inputClass}
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  placeholder="Grace Wanjiku"
+                  placeholder="Keza Marie"
                 />
               </label>
               <label className="block">
@@ -160,7 +160,7 @@ export default function Contact() {
                   className={inputClass}
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="+254 700 000 000"
+                  placeholder="+250 700 000 000"
                 />
               </label>
               <label className="block">
