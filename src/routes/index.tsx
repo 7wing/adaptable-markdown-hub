@@ -43,10 +43,10 @@ const steps = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="page-texture min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto grid max-w-7xl gap-12 border-b border-border px-6 pb-24 pt-16 lg:grid-cols-12">
+      <header className="animate-fade-in mx-auto grid max-w-7xl gap-12 border-b border-border px-6 pb-24 pt-16 lg:grid-cols-12">
         <div className="animate-reveal lg:col-span-7">
           <span className="label-mono mb-6 block text-primary">[ Phase 01: Measurement ]</span>
           <h1 className="mb-8 text-balance text-6xl font-extrabold leading-[0.9] tracking-tighter md:text-8xl">
@@ -75,7 +75,7 @@ export default function Home() {
         </div>
 
         <div className="animate-reveal flex flex-col justify-end [animation-delay:150ms] lg:col-span-5">
-          <div className="bg-foreground p-8 text-background">
+          <div className="rounded-lg bg-foreground p-8 text-background shadow-[12px_12px_0_var(--color-primary)] transition-transform duration-500 hover:-translate-y-1">
             <div className="label-mono mb-4 opacity-50">Sample scorecard · Kisumu Steel Works</div>
             <div className="mb-2 text-5xl font-extrabold tracking-tighter">
               81<span className="font-mono text-lg font-normal">/100</span>
@@ -113,7 +113,10 @@ export default function Home() {
 
       <section className="mx-auto grid max-w-7xl gap-0 border-b border-border px-6 py-24 md:grid-cols-3">
         {steps.map((step, i) => (
-          <div key={step.tag} className={`p-8 ${i < 2 ? "md:border-r md:border-border" : ""}`}>
+          <div
+            key={step.tag}
+            className={`p-8 transition-transform duration-300 hover:-translate-y-1 ${i < 2 ? "md:border-r md:border-border" : ""}`}
+          >
             <div className="mb-6 font-mono text-xs text-primary">{step.tag}</div>
             <h2 className="mb-4 text-xl font-extrabold tracking-tight">{step.title}</h2>
             <p className="text-sm leading-relaxed text-foreground/60">{step.body}</p>

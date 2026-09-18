@@ -61,7 +61,7 @@ export default function Contact() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 pb-16 pt-16 lg:grid-cols-12">
+      <div className="animate-fade-in mx-auto grid max-w-7xl gap-12 px-6 pb-16 pt-16 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <span className="label-mono mb-6 block text-primary">[ Join the waitlist ]</span>
           <h1 className="text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-6xl">

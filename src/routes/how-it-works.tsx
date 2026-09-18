@@ -58,7 +58,7 @@ export default function HowItWorks() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-16">
+      <header className="animate-fade-in mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-16">
         <span className="label-mono mb-6 block text-primary">[ The method ]</span>
         <h1 className="max-w-[24ch] text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-7xl">
           AUDIT. MATCH. SWAP.
