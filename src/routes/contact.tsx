@@ -138,7 +138,7 @@ export default function Contact() {
                   className={inputClass}
                   value={form.company}
                   onChange={(e) => setForm({ ...form, company: e.target.value })}
-                  placeholder="Thika Textiles"
+                  placeholder="Kigali Textiles"
                 />
               </label>
               <label className="block">
@@ -149,7 +149,7 @@ export default function Contact() {
                   className={inputClass}
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="hello@thikatextiles.co.ke"
+                  placeholder="hello@kigalitextiles.co.rw"
                 />
               </label>
               <label className="block">
