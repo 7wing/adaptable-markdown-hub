@@ -22,3 +22,9 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+### Waitlist submissions
+
+Waitlist submissions are saved in Supabase and shown in the admin lead list. The form asks for a
+company email and contact number, so you can follow up without paying for an email provider. The
+page displays a confirmation immediately after the submission is saved.

@@ -16,28 +16,70 @@ import { useAfadhali } from "@/lib/afadhali/store";
 export const Route = createFileRoute("/partner/quote")({
   validateSearch: (search: Record<string, unknown>) => ({
     matchId: typeof search["matchId"] === "string" ? (search["matchId"] as string) : undefined,
+    recommendationId:
+      typeof search["recommendationId"] === "string"
+        ? (search["recommendationId"] as string)
+        : undefined,
   }),
   component: QuoteForm,
 });
 
+type RequestOption = {
+  key: string;
+  label: string;
+  clientId: string;
+  matchId?: string;
+  recommendationId?: string;
+};
+
 function QuoteForm() {
-  const { matchId } = Route.useSearch();
+  const { matchId, recommendationId } = Route.useSearch();
   const navigate = useNavigate();
   const { user } = useAuth();
   const orgId = user?.organisationId ?? "";
-  const { matches, waste, clients, quotes, addQuote } = useAfadhali();
+  const { matches, waste, clients, quotes, recommendations, addQuote } = useAfadhali();
 
-  const myRequests = matches.filter((m) => m.partnerId === orgId && m.status !== "rejected");
+  const matchRequests: RequestOption[] = matches
+    .filter((m) => m.partnerId === orgId && m.status !== "rejected")
+    .map((m) => {
+      const we = waste.find((w) => w.id === m.entryAId);
+      const company = clients.find((c) => c.id === we?.clientId)?.company ?? "Client";
+      return {
+        key: `match:${m.id}`,
+        label: `${we?.material ?? "Material"} · ${company}`,
+        clientId: we?.clientId ?? "",
+        matchId: m.id,
+      };
+    });
+
+  const recommendationRequests: RequestOption[] = recommendations
+    .filter((r) => r.partnerId === orgId && r.status === "quote_requested")
+    .map((r) => {
+      const company = clients.find((c) => c.id === r.clientId)?.company ?? "Client";
+      return {
+        key: `rec:${r.id}`,
+        label: `${r.title} · ${company}`,
+        clientId: r.clientId,
+        recommendationId: r.id,
+      };
+    });
+
+  const allRequests = [...matchRequests, ...recommendationRequests];
+  const defaultKey = matchId
+    ? `match:${matchId}`
+    : recommendationId
+      ? `rec:${recommendationId}`
+      : (allRequests[0]?.key ?? "");
+
   const [form, setForm] = useState({
-    matchId: matchId ?? myRequests[0]?.id ?? "",
+    key: defaultKey,
     price: "",
     timeline: "",
     conditions: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
-  const selected = matches.find((m) => m.id === form.matchId);
-  const entry = waste.find((w) => w.id === selected?.entryAId);
+  const selected = allRequests.find((r) => r.key === form.key);
   const myQuotes = quotes.filter((q) => q.partnerId === orgId);
 
   return (
@@ -48,25 +90,26 @@ function QuoteForm() {
     >
       <div className="space-y-6">
         <Panel title="Quote details">
-          {myRequests.length === 0 ? (
+          {allRequests.length === 0 ? (
             <p className="text-sm opacity-50">You have no open requests to quote on.</p>
           ) : (
             <form
               className="grid gap-4 sm:grid-cols-2"
               onSubmit={async (e) => {
                 e.preventDefault();
-                if (!entry) {
-                  toast.error(
-                    "Could not find the waste stream for this request. Try selecting it again.",
-                  );
+                if (!selected) {
+                  toast.error("Select a request first.");
                   return;
                 }
                 setSubmitting(true);
                 try {
                   await addQuote({
                     partnerId: orgId,
-                    matchId: form.matchId,
-                    clientId: entry.clientId,
+                    clientId: selected.clientId,
+                    ...(selected.matchId ? { matchId: selected.matchId } : {}),
+                    ...(selected.recommendationId
+                      ? { recommendationId: selected.recommendationId }
+                      : {}),
                     price: Number(form.price) || 0,
                     timeline: form.timeline,
                     conditions: form.conditions,
@@ -84,18 +127,14 @@ function QuoteForm() {
               <Field label="Request">
                 <select
                   className={inputClass}
-                  value={form.matchId}
-                  onChange={(e) => setForm({ ...form, matchId: e.target.value })}
+                  value={form.key}
+                  onChange={(e) => setForm({ ...form, key: e.target.value })}
                 >
-                  {myRequests.map((m) => {
-                    const we = waste.find((w) => w.id === m.entryAId);
-                    const company = clients.find((c) => c.id === we?.clientId)?.company ?? "Client";
-                    return (
-                      <option key={m.id} value={m.id}>
-                        {we?.material ?? "Material"} · {company}
-                      </option>
-                    );
-                  })}
+                  {allRequests.map((r) => (
+                    <option key={r.key} value={r.key}>
+                      {r.label}
+                    </option>
+                  ))}
                 </select>
               </Field>
               <Field label="Price (KES)">

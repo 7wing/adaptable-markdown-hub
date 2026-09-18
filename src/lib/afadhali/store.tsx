@@ -240,12 +240,13 @@ export function AfadhaliStoreProvider({ children }: { children: ReactNode }) {
     refetch,
 
     addLead: async (lead) => {
-      await supabase.from("leads").insert({
+      const { error } = await supabase.from("leads").insert({
         name: lead.name,
         company: lead.company,
         sector: lead.sector,
         message: lead.message,
       });
+      if (error) throw error;
       await refetch();
     },
 

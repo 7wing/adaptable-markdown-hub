@@ -9,16 +9,17 @@ import { useAfadhali } from "@/lib/afadhali/store";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Request an audit — Afadhali" },
+      { title: "Join the waitlist — Afadhali" },
       {
         name: "description",
         content:
-          "Tell us what you produce and what you discard. We will come and measure it, then match what can be reused.",
+          "Join the Afadhali waitlist with your company, sector, and the materials you produce or discard.",
       },
-      { property: "og:title", content: "Request an Afadhali audit" },
+      { property: "og:title", content: "Join the Afadhali waitlist" },
       {
         property: "og:description",
-        content: "Send your sector, what you produce and what you discard — we take it from there.",
+        content:
+          "Tell us about your company, sector, and material streams as we prepare to open Afadhali.",
       },
     ],
   }),
@@ -49,6 +50,8 @@ export default function Contact() {
   const [form, setForm] = useState({
     name: "",
     company: "",
+    email: "",
+    phone: "",
     sector: "Coffee and tea",
     message: "",
   });
@@ -60,28 +63,20 @@ export default function Contact() {
 
       <div className="mx-auto grid max-w-7xl gap-16 px-6 pb-24 pt-24 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <span className="label-mono mb-6 block text-primary">[ Request an audit ]</span>
+          <span className="label-mono mb-6 block text-primary">[ Join the waitlist ]</span>
           <h1 className="text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-6xl">
-            TELL US WHAT YOU MAKE AND WHAT YOU THROW AWAY.
+            BE FIRST IN LINE FOR BETTER USE OF WHAT YOUR BUSINESS HAS.
           </h1>
           <p className="mt-8 text-lg leading-relaxed text-foreground/70">
-            That is enough to start. We will follow up to arrange a site visit and confirm what the
-            audit will cover.
+            We are preparing the first release. Tell us what your company makes, uses, and discards
+            so we can shape the opening around real businesses.
           </p>
           <dl className="mt-10 space-y-6 border-t border-border pt-8 font-mono text-[11px] uppercase tracking-widest">
             <div>
               <dt className="mb-1 opacity-50">Email</dt>
               <dd>
-                <a href="mailto:hello@afadhali.co" className="text-primary hover:underline">
-                  hello@afadhali.co
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="mb-1 opacity-50">Partnerships</dt>
-              <dd>
-                <a href="mailto:partners@afadhali.co" className="text-primary hover:underline">
-                  partners@afadhali.co
+                <a href="mailto:afadhali.ltd@gmail.com" className="text-primary hover:underline">
+                  afadhali.ltd@gmail.com
                 </a>
               </dd>
             </div>
@@ -91,13 +86,13 @@ export default function Contact() {
         <div className="lg:col-span-7">
           {sent ? (
             <div className="border border-primary/40 bg-primary/5 p-10">
-              <div className="label-mono mb-4 text-primary">Lead recorded</div>
+              <div className="label-mono mb-4 text-primary">You are on the list</div>
               <h2 className="text-2xl font-extrabold tracking-tighter">
-                Thank you — your request is in the queue.
+                Thank you — your company is on the Afadhali waitlist.
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-foreground/70">
-                An Afadhali admin now sees this as a lead and can convert it into a client record
-                once the audit is scheduled.
+                We will be in touch when the first places open. Your answers help us understand
+                which sectors and material streams to support first.
               </p>
               <button
                 onClick={() => setSent(false)}
@@ -109,12 +104,21 @@ export default function Contact() {
           ) : (
             <form
               className="space-y-6 border border-border p-8"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                // TODO(api): POST this to your leads endpoint instead of the mock store.
-                addLead(form);
-                setSent(true);
-                toast.success("Audit request received");
+                try {
+                  await addLead({
+                    name: form.name,
+                    company: form.company,
+                    sector: form.sector,
+                    message: `Contact email: ${form.email}\nContact number: ${form.phone}\n\n${form.message}`,
+                  });
+                  setSent(true);
+                  toast.success("Added to the waitlist");
+                } catch (error) {
+                  console.error(error);
+                  toast.error("We could not complete your signup. Please try again.");
+                }
               }}
             >
               <label className="block">
@@ -138,6 +142,28 @@ export default function Contact() {
                 />
               </label>
               <label className="block">
+                <span className="label-mono mb-2 block opacity-60">Company email</span>
+                <input
+                  required
+                  type="email"
+                  className={inputClass}
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  placeholder="hello@thikatextiles.co.ke"
+                />
+              </label>
+              <label className="block">
+                <span className="label-mono mb-2 block opacity-60">Contact number</span>
+                <input
+                  required
+                  type="tel"
+                  className={inputClass}
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                  placeholder="+254 700 000 000"
+                />
+              </label>
+              <label className="block">
                 <span className="label-mono mb-2 block opacity-60">Sector</span>
                 <select
                   className={inputClass}
@@ -151,7 +177,7 @@ export default function Contact() {
               </label>
               <label className="block">
                 <span className="label-mono mb-2 block opacity-60">
-                  What do you produce, and what do you discard?
+                  What does your company produce or discard?
                 </span>
                 <textarea
                   required
@@ -166,7 +192,7 @@ export default function Contact() {
                 type="submit"
                 className="bg-foreground px-6 py-3 font-mono text-[11px] uppercase tracking-widest text-background transition-colors hover:bg-primary"
               >
-                Submit request
+                Join the waitlist
               </button>
             </form>
           )}

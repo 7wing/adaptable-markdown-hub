@@ -9,13 +9,10 @@ export function SiteFooter() {
           Method
         </Link>
         <Link to="/collaborations" className="hover:text-primary">
-          Collaborations
+          Policy alignment
         </Link>
         <Link to="/contact" className="hover:text-primary">
           Contact
-        </Link>
-        <Link to="/login" className="hover:text-primary">
-          Platform login
         </Link>
       </div>
     </footer>

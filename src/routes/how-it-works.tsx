@@ -104,13 +104,13 @@ export default function HowItWorks() {
       <section className="mx-auto max-w-7xl px-6 py-24">
         <div className="flex flex-wrap items-center justify-between gap-6 bg-foreground p-10 text-background">
           <p className="max-w-[38ch] text-2xl font-extrabold tracking-tighter">
-            Start with the audit. Everything else follows from the measurement.
+            Join the waitlist. We will start with the measurement when the programme opens.
           </p>
           <Link
             to="/contact"
             className="bg-primary px-6 py-3 font-mono text-[11px] uppercase tracking-widest text-primary-foreground"
           >
-            Request an audit
+            Join the waitlist
           </Link>
         </div>
       </section>

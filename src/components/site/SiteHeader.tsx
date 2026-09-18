@@ -3,8 +3,7 @@ import { Link } from "@tanstack/react-router";
 const nav = [
   { to: "/how-it-works", label: "How it works" },
   { to: "/sectors", label: "Sectors" },
-  { to: "/collaborations", label: "Collaborations" },
-  { to: "/team", label: "Team" },
+  { to: "/collaborations", label: "Policy alignment" },
 ] as const;
 
 export function SiteHeader() {
@@ -29,15 +28,12 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
-          <Link to="/login" className="transition-colors hover:text-primary">
-            Platform
-          </Link>
         </div>
         <Link
           to="/contact"
           className="bg-foreground px-4 py-2 font-mono text-[11px] uppercase tracking-widest text-background transition-colors hover:bg-primary"
         >
-          Request Audit
+          Join the waitlist
         </Link>
       </div>
     </nav>

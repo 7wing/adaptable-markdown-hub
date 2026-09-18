@@ -26,6 +26,7 @@ function ClientProfile() {
     matches,
     recommendations,
     reports,
+    partners,
     updateClient,
     addReport,
     addRecommendation,
@@ -202,50 +203,60 @@ function ClientProfile() {
           )}
         </Panel>
 
+        <Panel title="Add recommendation">
+          <form
+            className="grid gap-4 sm:grid-cols-2"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.currentTarget;
+              const data = new FormData(form);
+              const partnerId = String(data.get("partnerId") ?? "");
+              await addRecommendation({
+                clientId: client.id,
+                title: String(data.get("title") ?? ""),
+                description: String(data.get("description") ?? ""),
+                benefit: String(data.get("benefit") ?? ""),
+                ...(partnerId ? { partnerId } : {}),
+              });
+              form.reset();
+              toast.success("Recommendation added");
+            }}
+          >
+            <Field label="Title">
+              <input name="title" required className={inputClass} placeholder="Solar drying beds" />
+            </Field>
+            <Field label="Benefit">
+              <input
+                name="benefit"
+                required
+                className={inputClass}
+                placeholder="Removes 9,600 L furnace oil/year"
+              />
+            </Field>
+            <Field label="Suggested partner">
+              <select name="partnerId" className={inputClass} defaultValue="">
+                <option value="">No partner suggested yet</option>
+                {partners
+                  .filter((p) => p.status === "active")
+                  .map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.company}
+                    </option>
+                  ))}
+              </select>
+            </Field>
+            <div className="sm:col-span-2">
+              <Field label="Description">
+                <textarea name="description" rows={3} required className={inputClass} />
+              </Field>
+            </div>
+            <div className="sm:col-span-2">
+              <ActionButton type="submit">Add recommendation</ActionButton>
+            </div>
+          </form>
+        </Panel>
+
         <Panel title="Matches and swap recommendations">
-          <Panel title="Add recommendation">
-            <form
-              className="grid gap-4 sm:grid-cols-2"
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const form = e.currentTarget;
-                const data = new FormData(form);
-                await addRecommendation({
-                  clientId: client.id,
-                  title: String(data.get("title") ?? ""),
-                  description: String(data.get("description") ?? ""),
-                  benefit: String(data.get("benefit") ?? ""),
-                });
-                form.reset();
-                toast.success("Recommendation added");
-              }}
-            >
-              <Field label="Title">
-                <input
-                  name="title"
-                  required
-                  className={inputClass}
-                  placeholder="Solar drying beds"
-                />
-              </Field>
-              <Field label="Benefit">
-                <input
-                  name="benefit"
-                  required
-                  className={inputClass}
-                  placeholder="Removes 9,600 L furnace oil/year"
-                />
-              </Field>
-              <div className="sm:col-span-2">
-                <Field label="Description">
-                  <textarea name="description" rows={3} required className={inputClass} />
-                </Field>
-              </div>
-              <div className="sm:col-span-2">
-                <ActionButton type="submit">Add recommendation</ActionButton>
-              </div>
-            </form>
-          </Panel>
           <div className="grid gap-8 lg:grid-cols-2">
             <div>
               <div className="label-mono mb-3 opacity-40">Matches</div>
@@ -270,12 +281,24 @@ function ClientProfile() {
                 <p className="text-sm opacity-50">No recommendations yet.</p>
               ) : (
                 <ul className="space-y-3">
-                  {clientRecs.map((r) => (
-                    <li key={r.id} className="border border-background/10 p-3">
-                      <div className="text-sm font-bold">{r.title}</div>
-                      <p className="mt-1 text-xs opacity-60">{r.benefit}</p>
-                    </li>
-                  ))}
+                  {clientRecs.map((r) => {
+                    const partner = partners.find((p) => p.id === r.partnerId);
+                    return (
+                      <li key={r.id} className="border border-background/10 p-3">
+                        <div className="text-sm font-bold">{r.title}</div>
+                        <p className="mt-1 text-xs opacity-60">{r.benefit}</p>
+                        {partner ? (
+                          <div className="mt-2 font-mono text-[10px] uppercase tracking-widest text-primary">
+                            → {partner.company}
+                          </div>
+                        ) : (
+                          <div className="mt-2 font-mono text-[10px] uppercase tracking-widest opacity-30">
+                            No partner suggested
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
