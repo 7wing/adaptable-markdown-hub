@@ -6,7 +6,7 @@ import type { Role } from "@/lib/afadhali/types";
 
 /**
  * UI-level role gate for the three portals.
- * TODO(auth): enforce the same rule server-side once a real backend is wired —
+ * TODO(auth): enforce the same rule server-side once a real backend is wired.
  * this only hides the screen, it does not protect data.
  */
 export function RequireRole({ role, children }: { role: Role; children: ReactNode }) {

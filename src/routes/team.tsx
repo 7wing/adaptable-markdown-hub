@@ -6,11 +6,11 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 export const Route = createFileRoute("/team")({
   head: () => ({
     meta: [
-      { title: "Team and open roles — Afadhali" },
+      { title: "Team and open roles: Afadhali" },
       {
         name: "description",
         content:
-          "The people running Afadhali audits, matching and partner delivery — plus the roles we are currently hiring for.",
+          "The people running Afadhali audits, matching and partner delivery, plus the roles we are currently hiring for.",
       },
       { property: "og:title", content: "The Afadhali team" },
       {
@@ -58,7 +58,7 @@ export default function Team() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-24">
+      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-16">
         <span className="label-mono mb-6 block text-primary">[ Who is behind this ]</span>
         <h1 className="max-w-[24ch] text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-7xl">
           SMALL TEAM. MEASURED WORK.

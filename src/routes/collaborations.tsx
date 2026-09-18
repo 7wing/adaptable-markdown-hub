@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 export const Route = createFileRoute("/collaborations")({
   head: () => ({
     meta: [
-      { title: "Policy alignment — Afadhali" },
+      { title: "Policy alignment: Afadhali" },
       {
         name: "description",
         content:
@@ -42,7 +42,7 @@ export default function Collaborations() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-24">
+      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-16">
         <span className="label-mono mb-6 block text-primary">[ Policy alignment ]</span>
         <h1 className="max-w-[26ch] text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-7xl">
           BETTER RESOURCE USE STARTS WITH MEASUREMENT.

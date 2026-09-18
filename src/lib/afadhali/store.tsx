@@ -329,7 +329,7 @@ export function AfadhaliStoreProvider({ children }: { children: ReactNode }) {
 
     addWasteNote: async (id, note) => {
       const current = data.waste.find((w) => w.id === id);
-      const notes = current?.notes ? `${current.notes} — ${note}` : note;
+      const notes = current?.notes ? `${current.notes}, ${note}` : note;
       await supabase.from("waste_entries").update({ notes }).eq("id", id);
       await refetch();
     },

@@ -46,7 +46,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-bold tracking-tight text-foreground">
+        <h1 className="text-xl font-extrabold tracking-tight text-foreground">
           This page didn&apos;t load
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
@@ -79,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Afadhali — Audit. Match. Swap." },
+      { title: "Afadhali: Audit. Match. Swap." },
       {
         name: "description",
         content:
           "Afadhali audits industrial energy, water and waste, matches waste streams between businesses, and swaps what cannot be matched for cleaner alternatives.",
       },
       { name: "author", content: "Afadhali" },
-      { property: "og:title", content: "Afadhali — Audit. Match. Swap." },
+      { property: "og:title", content: "Afadhali: Audit. Match. Swap." },
       {
         property: "og:description",
         content: "Measure what you have. Match what you waste.",
@@ -102,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;500&display=swap",
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/afadhali-logo.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,

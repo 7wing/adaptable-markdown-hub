@@ -5,7 +5,7 @@ import { RequireRole } from "@/components/platform/RequireRole";
 export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
-      { title: "Admin platform — Afadhali" },
+      { title: "Admin platform: Afadhali" },
       {
         name: "description",
         content: "Afadhali staff workspace: clients, audits, waste registry, matches and reports.",

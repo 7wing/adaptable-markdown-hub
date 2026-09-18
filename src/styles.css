@@ -3,7 +3,7 @@
 @import "tw-animate-css";
 
 /*
- * Afadhali design system — "Industrial utilitarian".
+ * Afadhali design system: "Industrial utilitarian".
  * Paper background, graphite ink, burnt-clay accent, ochre signal.
  * Inter (800/400) for display, JetBrains Mono for labels and data.
  * All colors are oklch semantic tokens. Never hardcode colors in components.
@@ -101,6 +101,12 @@
 @layer base {
   * {
     border-color: var(--color-border);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 800;
   }
 
   body {

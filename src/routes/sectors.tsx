@@ -6,11 +6,11 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 export const Route = createFileRoute("/sectors")({
   head: () => ({
     meta: [
-      { title: "Sectors we audit — Afadhali" },
+      { title: "Sectors we audit: Afadhali" },
       {
         name: "description",
         content:
-          "Coffee and tea, manufacturing, hospitality, digital infrastructure, agriculture, healthcare, construction, transport, education, retail, textiles and mining — with the audit finding typical of each.",
+          "Coffee and tea, manufacturing, hospitality, digital infrastructure, agriculture, healthcare, construction, transport, education, retail, textiles and mining, with the audit finding typical of each.",
       },
       { property: "og:title", content: "Sectors Afadhali audits" },
       {
@@ -69,13 +69,13 @@ export default function Sectors() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-24">
+      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-16">
         <span className="label-mono mb-6 block text-primary">[ Where we work ]</span>
         <h1 className="max-w-[26ch] text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-7xl">
           TWELVE SECTORS. ONE METHOD.
         </h1>
         <p className="mt-8 max-w-[55ch] text-lg leading-relaxed text-foreground/70">
-          The audit does not change by industry — only what it finds does. Below is the finding we
+          The audit does not change by industry, only what it finds does. Below is the finding we
           most often measure in each sector we work in.
         </p>
       </header>
@@ -87,7 +87,7 @@ export default function Sectors() {
               <div className="mb-6 font-mono text-[10px] tracking-widest text-primary">
                 {String(i + 1).padStart(2, "0")}
               </div>
-              <h2 className="mb-3 text-xl font-bold tracking-tight">{sector.name}</h2>
+              <h2 className="mb-3 text-xl font-extrabold tracking-tight">{sector.name}</h2>
               <p className="text-sm leading-relaxed text-foreground/60">{sector.finding}</p>
             </article>
           ))}
@@ -96,7 +96,7 @@ export default function Sectors() {
         <div className="mt-16 flex flex-wrap items-center justify-between gap-6 border border-border p-8">
           <p className="max-w-[46ch] text-lg leading-relaxed">
             If your sector is not listed, the method still applies. Every business consumes energy
-            and discards something — get in touch and we will measure it.
+            and discards something, get in touch and we will measure it.
           </p>
           <Link
             to="/contact"

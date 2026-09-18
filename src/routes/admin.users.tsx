@@ -146,7 +146,7 @@ function Users() {
                   <td className="py-3">
                     <Tag>{u.role}</Tag>
                   </td>
-                  <td className="py-3">{u.organisationName ?? "—"}</td>
+                  <td className="py-3">{u.organisationName ?? "N/A"}</td>
                   <td className="py-3 text-right">
                     <button
                       className="uppercase tracking-widest hover:text-primary"

@@ -1,5 +1,5 @@
 // Core data model for Afadhali (see platform specification, section 3).
-// These types are the contract your real API should satisfy — keep them as-is
+// These types are the contract your real API should satisfy. Keep them as-is
 // and swap the mock implementation in `store.tsx` for real network calls.
 
 export type Role = "admin" | "client" | "partner";

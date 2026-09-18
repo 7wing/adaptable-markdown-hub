@@ -7,7 +7,7 @@ import { roleHome, useAuth } from "@/lib/afadhali/auth";
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Platform login — Afadhali" },
+      { title: "Platform login: Afadhali" },
       {
         name: "description",
         content:
@@ -52,7 +52,7 @@ export default function LoginPage() {
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-5xl gap-12 px-6 py-24 lg:grid-cols-2">
+      <div className="mx-auto grid max-w-5xl gap-12 px-6 py-16 lg:grid-cols-2">
         <div>
           <span className="label-mono mb-6 block text-ochre">[ Platform access ]</span>
           <h1 className="text-balance text-4xl font-extrabold leading-[0.95] tracking-tighter md:text-5xl">
@@ -65,7 +65,7 @@ export default function LoginPage() {
         </div>
 
         <form
-          className="space-y-6 border border-background/10 bg-background/[0.03] p-8"
+          className="space-y-6 border border-background/10 bg-background/3 p-8"
           onSubmit={async (e) => {
             e.preventDefault();
             try {

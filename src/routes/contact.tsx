@@ -9,7 +9,7 @@ import { useAfadhali } from "@/lib/afadhali/store";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Join the waitlist — Afadhali" },
+      { title: "Join the waitlist: Afadhali" },
       {
         name: "description",
         content:
@@ -61,7 +61,7 @@ export default function Contact() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <div className="mx-auto grid max-w-7xl gap-16 px-6 pb-24 pt-24 lg:grid-cols-12">
+      <div className="mx-auto grid max-w-7xl gap-12 px-6 pb-16 pt-16 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <span className="label-mono mb-6 block text-primary">[ Join the waitlist ]</span>
           <h1 className="text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-6xl">
@@ -88,7 +88,7 @@ export default function Contact() {
             <div className="border border-primary/40 bg-primary/5 p-10">
               <div className="label-mono mb-4 text-primary">You are on the list</div>
               <h2 className="text-2xl font-extrabold tracking-tighter">
-                Thank you — your company is on the Afadhali waitlist.
+                Thank you, your company is on the Afadhali waitlist.
               </h2>
               <p className="mt-4 text-sm leading-relaxed text-foreground/70">
                 We will be in touch when the first places open. Your answers help us understand

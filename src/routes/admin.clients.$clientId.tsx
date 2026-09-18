@@ -73,7 +73,7 @@ function ClientProfile() {
           <Stat label="Matches" value={String(clientMatches.length)} accent />
           <Stat
             label="Latest score"
-            value={clientAudits[0] ? String(clientAudits[0].overallScore) : "—"}
+            value={clientAudits[0] ? String(clientAudits[0].overallScore) : "N/A"}
           />
         </div>
 

@@ -5,7 +5,7 @@ import { RequireRole } from "@/components/platform/RequireRole";
 export const Route = createFileRoute("/partner")({
   head: () => ({
     meta: [
-      { title: "Partner portal — Afadhali" },
+      { title: "Partner portal: Afadhali" },
       {
         name: "description",
         content:

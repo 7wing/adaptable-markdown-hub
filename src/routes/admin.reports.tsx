@@ -56,7 +56,7 @@ function Reports() {
                   ? String(
                       Math.round(audits.reduce((s, a) => s + a.overallScore, 0) / audits.length),
                     )
-                  : "—"
+                  : "N/A"
               }
             />
           </div>
@@ -71,7 +71,7 @@ function Reports() {
                 clientId,
                 audits.filter((a) => a.clientId === clientId).map((a) => a.id),
               );
-              toast.success("Report generated — preview it before sending");
+              toast.success("Report generated, preview it before sending");
             }}
           >
             <div className="min-w-[240px]">
@@ -126,7 +126,7 @@ function Reports() {
                     {previewing === r.id ? (
                       <div className="mt-4 border border-background/10 bg-background/5 p-6">
                         <div className="mb-4 font-mono text-[10px] uppercase tracking-widest text-ochre">
-                          Report preview — {clientName(r.clientId)}
+                          Report preview: {clientName(r.clientId)}
                         </div>
                         {reportAudits.length === 0 ? (
                           <p className="text-sm opacity-50">No audits attached to this report.</p>

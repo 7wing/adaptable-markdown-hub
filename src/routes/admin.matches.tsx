@@ -31,9 +31,9 @@ function Matches() {
   });
 
   const entryLabel = (id?: string) => {
-    if (!id) return "—";
+    if (!id) return "N/A";
     const entry = waste.find((w) => w.id === id);
-    if (!entry) return "—";
+    if (!entry) return "N/A";
     const company = clients.find((c) => c.id === entry.clientId)?.company ?? "Unknown";
     return `${entry.material} · ${company}`;
   };

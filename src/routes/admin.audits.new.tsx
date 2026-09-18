@@ -71,7 +71,7 @@ function NewAudit() {
     <AppShell
       role="admin"
       title="NEW AUDIT"
-      subtitle={`Step ${step} of 3 — site visit capture form`}
+      subtitle={`Step ${step} of 3: site visit capture form`}
       actions={
         <ActionButton variant="ghost" onClick={() => submit("draft")}>
           Save draft
@@ -251,7 +251,7 @@ function NewAudit() {
         {step === 3 ? (
           <Panel title="Scores and summary">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Field label={`Energy efficiency score — ${form.energyScore}`}>
+              <Field label={`Energy efficiency score: ${form.energyScore}`}>
                 <input
                   type="range"
                   min={0}
@@ -261,7 +261,7 @@ function NewAudit() {
                   className="w-full accent-ochre"
                 />
               </Field>
-              <Field label={`Waste management score — ${form.wasteScore}`}>
+              <Field label={`Waste management score: ${form.wasteScore}`}>
                 <input
                   type="range"
                   min={0}

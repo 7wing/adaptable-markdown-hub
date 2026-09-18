@@ -14,7 +14,7 @@ export function SiteHeader() {
           to="/"
           className="flex items-center gap-2 font-mono text-sm font-bold tracking-tighter"
         >
-          <span className="size-4 bg-primary" />
+          <img src="/afadhali-logo.svg" alt="" className="h-6 w-7 object-contain" />
           AFADHALI
         </Link>
         <div className="hidden gap-8 font-mono text-[11px] uppercase tracking-widest md:flex">

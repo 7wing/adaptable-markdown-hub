@@ -6,7 +6,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({
     meta: [
-      { title: "How it works — Audit, Match, Swap | Afadhali" },
+      { title: "How it works: Audit, Match, Swap | Afadhali" },
       {
         name: "description",
         content:
@@ -27,7 +27,7 @@ const steps = [
     tag: "(01) AUDIT",
     title: "We measure what your site actually consumes and discards.",
     happens:
-      "An auditor visits your site and records your energy source, monthly cost, machine age and efficiency, water use, and every waste stream you produce — material type, estimated volume, how often it is produced, and how it is handled today.",
+      "An auditor visits your site and records your energy source, monthly cost, machine age and efficiency, water use, and every waste stream you produce: material type, estimated volume, how often it is produced, and how it is handled today.",
     provide:
       "Site access, recent utility bills, and someone who knows the production floor for half a day.",
     receive:
@@ -37,16 +37,16 @@ const steps = [
     tag: "(02) MATCH",
     title: "Your waste is compared against every other stream in the registry.",
     happens:
-      "Each measured stream enters the Afadhali waste registry. We look for pairings where material type, volume and distance line up — your by-product being another business's input. Every candidate match is reviewed by an Afadhali analyst before either side sees it.",
+      "Each measured stream enters the Afadhali waste registry. We look for pairings where material type, volume and distance line up, with your by-product becoming another business's input. Every candidate match is reviewed by an Afadhali analyst before either side sees it.",
     provide: "A decision: accept interest in a proposed match, or decline it.",
     receive:
-      "Reviewed match proposals describing what the waste is, what it could be used for, and the general profile of the other business — with an introduction once both sides agree.",
+      "Reviewed match proposals describing what the waste is, what it could be used for, and the general profile of the other business, with an introduction once both sides agree.",
   },
   {
     tag: "(03) SWAP",
     title: "What cannot be matched gets a cleaner alternative.",
     happens:
-      "Some streams have no local taker, and some findings are about consumption rather than waste. For those we recommend a swap — solar sizing, an efficient equipment replacement, biogas conversion, or a packaging alternative — and route it to a vetted delivery partner.",
+      "Some streams have no local taker, and some findings are about consumption rather than waste. For those we recommend a swap, such as solar sizing, an efficient equipment replacement, biogas conversion, or a packaging alternative, and route it to a vetted delivery partner.",
     provide: "A quote request when a recommendation is worth pricing.",
     receive:
       "Partner quotes with price, timeline and conditions, and job status tracked from scheduled through to completion.",
@@ -58,7 +58,7 @@ export default function HowItWorks() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-24">
+      <header className="mx-auto max-w-7xl border-b border-border px-6 pb-20 pt-16">
         <span className="label-mono mb-6 block text-primary">[ The method ]</span>
         <h1 className="max-w-[24ch] text-balance text-5xl font-extrabold leading-[0.9] tracking-tighter md:text-7xl">
           AUDIT. MATCH. SWAP.

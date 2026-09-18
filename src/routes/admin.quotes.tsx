@@ -76,7 +76,7 @@ function Quotes() {
                         <ActionButton
                           onClick={async () => {
                             await acceptQuoteAndCreateJob(q.id, descriptionFor(q.id));
-                            toast.success("Quote accepted — job created");
+                            toast.success("Quote accepted, job created");
                           }}
                         >
                           Accept

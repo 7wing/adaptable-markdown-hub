@@ -22,7 +22,7 @@ function ClientMatches() {
       m.status !== "rejected",
   );
   const materialOf = (id?: string) =>
-    id ? (waste.find((w) => w.id === id)?.material ?? "—") : "—";
+    id ? (waste.find((w) => w.id === id)?.material ?? "N/A") : "N/A";
 
   return (
     <AppShell
@@ -77,7 +77,7 @@ function ClientMatches() {
                         <ActionButton
                           onClick={() => {
                             setMatchStatus(m.id, "accepted_by_client");
-                            toast.success("Accepted — we will coordinate the pickup");
+                            toast.success("Accepted, we will coordinate the pickup");
                           }}
                         >
                           Accept

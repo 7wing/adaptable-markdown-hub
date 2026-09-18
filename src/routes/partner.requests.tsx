@@ -34,7 +34,7 @@ function Requests() {
         kind: "Match",
         title: e?.material ?? "Material",
         clientName: clientName(e?.clientId),
-        detail: `${e?.volume ?? "—"} · ${e?.frequency ?? "—"} · ${m.distanceKm} km · ${m.reasoning}`,
+        detail: `${e?.volume ?? "N/A"} · ${e?.frequency ?? "N/A"} · ${m.distanceKm} km · ${m.reasoning}`,
         quoted: quotes.some((q) => q.partnerId === orgId && q.matchId === m.id),
         linkSearch: { matchId: m.id, recommendationId: undefined },
       };
@@ -47,7 +47,7 @@ function Requests() {
       kind: "Recommendation",
       title: r.title,
       clientName: clientName(r.clientId),
-      detail: `${r.description} — ${r.benefit}`,
+      detail: `${r.description}, ${r.benefit}`,
       quoted: quotes.some((q) => q.partnerId === orgId && q.recommendationId === r.id),
       linkSearch: { matchId: undefined, recommendationId: r.id },
     }));
@@ -58,7 +58,7 @@ function Requests() {
     <AppShell
       role="partner"
       title="REQUESTS"
-      subtitle="Everything routed to you — material matches and client-requested recommendations"
+      subtitle="Everything routed to you: material matches and client-requested recommendations"
       actions={<Stat label="Open" value={String(allItems.length)} accent />}
     >
       <Panel title="Incoming requests">

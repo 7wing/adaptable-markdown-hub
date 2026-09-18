@@ -155,10 +155,10 @@ function ClientList() {
                         addClient({
                           company: lead.company,
                           sector: lead.sector,
-                          location: "—",
+                          location: "N/A",
                           contactPerson: lead.name,
-                          email: "—",
-                          phone: "—",
+                          email: "N/A",
+                          phone: "N/A",
                           status: "active",
                           auditStatus: "not_started",
                         });

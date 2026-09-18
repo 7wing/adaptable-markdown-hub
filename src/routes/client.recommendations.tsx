@@ -69,7 +69,7 @@ function Recommendations() {
                         <>
                           <ActionButton
                             onClick={() => {
-                              // TODO(api): POST /quote-requests — notifies the partner
+                              // TODO(api): POST /quote-requests, notifies the partner
                               setRecommendationStatus(r.id, "quote_requested");
                               toast.success("Quote requested");
                             }}

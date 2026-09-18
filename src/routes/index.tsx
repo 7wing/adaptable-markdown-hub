@@ -6,13 +6,13 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Afadhali — Measure what you have. Match what you waste." },
+      { title: "Afadhali: Measure what you have. Match what you waste." },
       {
         name: "description",
         content:
           "Afadhali audits energy, water and waste at your site, matches your waste streams to businesses that need them, and swaps the rest for cleaner alternatives.",
       },
-      { property: "og:title", content: "Afadhali — Audit. Match. Swap." },
+      { property: "og:title", content: "Afadhali: Audit. Match. Swap." },
       {
         property: "og:description",
         content:
@@ -27,7 +27,7 @@ const steps = [
   {
     tag: "(01) AUDIT",
     title: "On-site measurement of energy, water and waste.",
-    body: "Our auditors record your energy source and cost, machine age and efficiency, water use, and every waste stream you produce — volume, frequency and how it is handled today.",
+    body: "Our auditors record your energy source and cost, machine age and efficiency, water use, and every waste stream you produce: volume, frequency and how it is handled today.",
   },
   {
     tag: "(02) MATCH",
@@ -37,7 +37,7 @@ const steps = [
   {
     tag: "(03) SWAP",
     title: "Cleaner alternatives for what cannot be matched.",
-    body: "Solar sizing, efficient equipment, biogas conversion or packaging alternatives — costed by vetted delivery partners and tracked to completion.",
+    body: "Solar sizing, efficient equipment, biogas conversion or packaging alternatives, costed by vetted delivery partners and tracked to completion.",
   },
 ];
 
@@ -46,7 +46,7 @@ export default function Home() {
     <div className="min-h-screen">
       <SiteHeader />
 
-      <header className="mx-auto grid max-w-7xl gap-12 border-b border-border px-6 pb-32 pt-24 lg:grid-cols-12">
+      <header className="mx-auto grid max-w-7xl gap-12 border-b border-border px-6 pb-24 pt-16 lg:grid-cols-12">
         <div className="animate-reveal lg:col-span-7">
           <span className="label-mono mb-6 block text-primary">[ Phase 01: Measurement ]</span>
           <h1 className="mb-8 text-balance text-6xl font-extrabold leading-[0.9] tracking-tighter md:text-8xl">
@@ -54,7 +54,7 @@ export default function Home() {
             <span className="text-muted-foreground opacity-50">MATCH WHAT YOU WASTE.</span>
           </h1>
           <p className="mb-10 max-w-[45ch] text-lg leading-relaxed text-foreground/80">
-            Afadhali — Swahili for better — audits what your business consumes and discards, matches
+            Afadhali, Swahili for better, audits what your business consumes and discards, matches
             the waste to businesses that can use it, and swaps the remainder for cleaner
             alternatives.
           </p>
@@ -115,7 +115,7 @@ export default function Home() {
         {steps.map((step, i) => (
           <div key={step.tag} className={`p-8 ${i < 2 ? "md:border-r md:border-border" : ""}`}>
             <div className="mb-6 font-mono text-xs text-primary">{step.tag}</div>
-            <h2 className="mb-4 text-xl font-bold tracking-tight">{step.title}</h2>
+            <h2 className="mb-4 text-xl font-extrabold tracking-tight">{step.title}</h2>
             <p className="text-sm leading-relaxed text-foreground/60">{step.body}</p>
           </div>
         ))}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 192" role="img" aria-labelledby="title desc">
+  <title id="title">Afadhali logo</title>
+  <desc id="desc">A rising arrow wrapped around a leaf and sun.</desc>
+  <rect width="256" height="192" fill="#f5f4f0"/>
+  <path fill="#050505" d="M28 155c25-26 53-42 84-48 35-7 55-27 72-54l-15-10 56-19-10 58-16-13c-23 37-51 60-84 70-29 9-57 13-87 16Z"/>
+  <path fill="#050505" d="M85 105C47 98 23 75 25 42c2-20 12-34 27-43 1 28 17 46 39 58 14 8 21 23 19 39-4 5-12 8-25 9Z"/>
+  <path fill="#050505" d="M136 112c16 18 27 36 35 59h46c-16-28-34-51-56-69Z"/>
+  <path fill="none" stroke="#050505" stroke-linecap="round" stroke-width="8" d="M83 100c17-18 29-42 44-68 4-7 10-7 14 0l28 48"/>
+  <path fill="none" stroke="#050505" stroke-linecap="round" stroke-width="7" d="M86 49c8-29 33-43 57-39 19 3 35 15 43 33"/>
+  <path fill="#050505" d="m76 15 12 8-18 1Zm22-13 7 14-17-7Zm25-2 1 16-14-12Zm27 5-5 16-10-16Zm25 13-12 11-2-17Z"/>
+</svg>

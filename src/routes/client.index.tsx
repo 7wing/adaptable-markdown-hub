@@ -33,7 +33,7 @@ function ClientHome() {
       title={(client?.company ?? "YOUR SITE").toUpperCase()}
       subtitle={client ? `${client.sector} · ${client.location}` : "Waiting for your first audit"}
       actions={
-        <Stat label="Overall score" value={latest ? String(latest.overallScore) : "—"} accent />
+        <Stat label="Overall score" value={latest ? String(latest.overallScore) : "N/A"} accent />
       }
     >
       <div className="space-y-6">
